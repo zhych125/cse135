@@ -5,14 +5,15 @@
 <html>
 <%@ include file="login.html" %>
     <%
-        String name=request.getParameter("user");
-        String age=request.getParameter("age");
-        String role = request.getParameter("role");
-        String state = request.getParameter("state");
+        users user=new users();
+        user.setName(request.getParameter("user"));
+        user.setAge(Integer.parseInt(request.getParameter("age")));
+        user.setRole(request.getParameter("role"));
+        user.setState(request.getParameter("state"));
         try{
-            users.addUser(name,age,role,state);
+            users.addUser(user);
     %>
-        <p><%=name %> has successfully signed up!</p>
+        <p><%=user.getName() %> has successfully signed up!</p>
         
     <%
         }catch(Exception e) {

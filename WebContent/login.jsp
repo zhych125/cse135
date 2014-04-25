@@ -8,12 +8,12 @@
 String name=request.getParameter("user");
 %>
 <% 
-String result=null;
+users user=new users();
+user.setName(name);
 try{
-	result=users.checkUser(name);
+	users result=users.checkUser(user);
 	if (result!=null) {
-		session.setAttribute("user", name);
-		session.setAttribute("role",result);
+		session.setAttribute("user", result);
 %>
 <jsp:forward page="temp.jsp"/>
 <%
