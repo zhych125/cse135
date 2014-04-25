@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<states>
+  <state name="ALABAMA"/>
+
+  <state name="ALASKA"/>
+
+  <state name="ARIZONA"/>
+
+  <state name="ARKANSAS"/>
+
+  <state name="CALIFORNIA"/>
+
+  <state name="COLORADO"/>
+
+  <state name="CONNECTICUT"/>
+
+  <state name="DELAWARE"/>
+
+  <state name="FLORIDA"/>
+
+  <state name="GEORGIA"/>
+
+  <state name="HAWAII"/>
+
+  <state name="IDAHO"/>
+
+  <state name="ILLINOIS"/>
+
+  <state name="INDIANA"/>
+
+  <state name="IOWA"/>
+
+  <state name="KANSAS"/>
+
+  <state name="KENTUCKY"/>
+
+  <state name="LOUISIANA"/>
+
+  <state name="MAINE"/>
+
+  <state name="MARYLAND"/>
+
+  <state name="MASSACHUSETTS"/>
+
+  <state name="MICHIGAN"/>
+
+  <state name="MINNESOTA"/>
+
+  <state name="MISSISSIPPI"/>
+
+  <state name="MISSOURI"/>
+
+  <state name="MONTANA"/>
+
+  <state name="NEBRASKA"/>
+
+  <state name="NEVADA"/>
+
+  <state name="NEW HAMPSHIRE"/>
+
+  <state name="NEW JERSEY"/>
+
+  <state name="NEW MEXICO"/>
+
+  <state name="NEW YORK"/>
+
+  <state name="NORTH CAROLINA"/>
+
+  <state name="NORTH DAKOTA"/>
+
+  <state name="OHIO"/>
+
+  <state name="OKLAHOMA"/>
+
+  <state name="OREGON"/>
+
+  <state name="PENNSYLVANIA"/>
+
+  <state name="RHODE ISLAND"/>
+
+  <state name="SOUTH CAROLINA"/>
+
+  <state name="SOUTH DAKOTA"/>
+
+  <state name="TENNESSEE"/>
+
+  <state name="TEXAS"/>
+
+  <state name="UTAH"/>
+
+  <state name="VERMONT"/>
+
+  <state name="VIRGINIA"/>
+
+  <state name="WASHINGTON"/>
+
+  <state name="WEST VIRGINIA"/>
+
+  <state name="WISCONSIN"/>
+
+  <state name="WYOMING"/>
+
+</states>
