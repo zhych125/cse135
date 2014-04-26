@@ -1,11 +1,14 @@
-<%@ page import="data.users" %>
+<%@ page import="data.users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
-<%@ include file="login.html" %>
+<%@ include file="login.html"%>
 <%
-String name=request.getParameter("user");
+String name=null;
+if(request.getParameter("user")!=null) {
+	name=request.getParameter("user");
+} 
 %>
 <% 
 users user=new users();
@@ -16,16 +19,16 @@ try{
 		session.setAttribute("user", result);
         if(result.getRole().equals("owner")) {
 %>
-<jsp:forward page="category.jsp"/>
+<jsp:forward page="categories.jsp" />
 <%
         } else {
 %>
-<jsp:forward page="product_browsing.jsp"/>
+<jsp:forward page="product_browsing.jsp" />
 <%
         }
 	} else {
 		%>
-<p> User doesn't exists,please signup first!</p>
+<p>User doesn't exists,please signup first!</p>
 <%
 	}
 } catch(Exception e) {

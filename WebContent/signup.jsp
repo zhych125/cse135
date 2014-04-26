@@ -7,7 +7,9 @@
     <%
         users user=new users();
         user.setName(request.getParameter("user"));
-        user.setAge(Integer.parseInt(request.getParameter("age")));
+        if(request.getParameter("age")!=null&&!request.getParameter("age").equals("")) {
+            user.setAge(Integer.parseInt(request.getParameter("age")));
+        }
         user.setRole(request.getParameter("role"));
         user.setState(request.getParameter("state"));
         try{
