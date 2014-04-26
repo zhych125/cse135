@@ -1,7 +1,7 @@
 <%@ page import="data.users" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <%@ include file="login.html" %>
 <%
@@ -14,9 +14,15 @@ try{
 	users result=users.checkUser(user);
 	if (result!=null) {
 		session.setAttribute("user", result);
+        if(result.getRole().equals("owner")) {
 %>
-<jsp:forward page="temp.jsp"/>
+<jsp:forward page="category.jsp"/>
 <%
+        } else {
+%>
+<jsp:forward page="product_browsing.jsp"/>
+<%
+        }
 	} else {
 		%>
 <p> User doesn't exists,please signup first!</p>

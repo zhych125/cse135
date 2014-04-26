@@ -40,12 +40,12 @@ public class users {
 		PreparedStatement pstmt=null;
 		try{
 	        con=dbUtil.connect();
-	        String insertString = "INSERT INTO users(name,age,state,role) Values(?,?,?,?)";
+	        String insertString = "INSERT INTO users(name,age,state,role) Values(?,?,?,?);";
 	        pstmt=con.prepareStatement(insertString); 
 	        pstmt.setString(1, user.getName());
 	        pstmt.setInt(2,user.getAge());
-	        pstmt.setString(3,user.getRole());
-	        pstmt.setString(4,user.getState());
+	        pstmt.setString(3,user.getState());
+	        pstmt.setString(4,user.getRole());
 	        pstmt.executeUpdate();
 	        pstmt.close();
 	    }finally {
@@ -58,7 +58,7 @@ public class users {
         ResultSet rs=null;
 		try{
 	        con=dbUtil.connect();
-	        String stmtString = "SELECT role FROM users Where name=?";
+	        String stmtString = "SELECT role FROM users Where name=?;";
 	        pstmt=con.prepareStatement(stmtString);
 	        pstmt.setString(1, user.getName());
 	        rs=pstmt.executeQuery();

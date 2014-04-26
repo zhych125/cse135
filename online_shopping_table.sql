@@ -24,7 +24,7 @@ CREATE TABLE products (
   name TEXT NOT NULL,
   SKU TEXT NOT NULL UNIQUE,
   category_id INTEGER REFERENCES categories(id) NOT NULL,
-  price NUMERIC(12,2) NOT NULL CHECK (price>0)
+  price INTEGER NOT NULL CHECK (price>0)
 );
 
 CREATE TABLE purchase (
