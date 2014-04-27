@@ -2,9 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
-<html>
-<%@ include file="login.html" %>
     <%
+        boolean signup=false;
         users user=new users();
         user.setName(request.getParameter("user"));
         if(request.getParameter("age")!=null&&!request.getParameter("age").equals("")) {
@@ -14,14 +13,11 @@
         user.setState(request.getParameter("state"));
         try{
             users.addUser(user);
-    %>
-        <p><%=user.getName() %> has successfully signed up!</p>
-        
-    <%
+            signup=true;
         }catch(Exception e) {
-        	out.println(e.getMessage());
+        	session.setAttribute("signup_error",e.getMessage());
         }
+        session.setAttribute("signup", signup);
+        session.setAttribute("signup_name",request.getParameter("user"));
+        response.sendRedirect("welcome.jsp");
     %>
-
-</body>
-</html>

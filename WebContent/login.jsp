@@ -3,7 +3,6 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
-<%@ include file="login.html"%>
 <%
 String name=null;
 if(request.getParameter("user")!=null) {
@@ -13,27 +12,26 @@ if(request.getParameter("user")!=null) {
 <% 
 users user=new users();
 user.setName(name);
+users result=null;
 try{
-	users result=users.checkUser(user);
-	if (result!=null) {
-		session.setAttribute("user", result);
-        if(result.getRole().equals("owner")) {
-%>
-<jsp:forward page="categories.jsp" />
-<%
-        } else {
-%>
-<jsp:forward page="product_browsing.jsp" />
-<%
-        }
-	} else {
-		%>
-<p>User doesn't exists,please signup first!</p>
-<%
-	}
+	result=users.checkUser(user);
 } catch(Exception e) {
-	out.println(e.getMessage());
+	session.setAttribute("login_error", e.getMessage());
+	response.sendRedirect("welcome.jsp");
 }
+if (result!=null) {
+	session.setAttribute("user", result);
+       if(result.getRole().equals("owner")) {
+           response.sendRedirect("categories.jsp");
+
+       } else {
+       	response.sendRedirect("product_browsing.jsp"); 
+       }
+} else {
+	session.setAttribute("login_error", "User doesn't exists,please signup first!");
+	response.sendRedirect("welcome.jsp");
+}
+
 %>
 </body>
 </html>

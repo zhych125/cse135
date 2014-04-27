@@ -16,13 +16,13 @@
     <form action="products.jsp" method="GET">
         <input type="text" name="search"/>
         <input type="hidden" name="id" value="<%=id %>"/>
-        <input type="submit" name="Search"/>
+        <input type="submit" value="Search"/>
     </form>
     <%} else { %>
      <form action="product_browsing.jsp" method="GET">
      <input type="text" name="search"/>
      <input type="hidden" name="id" value="<%=id %>"/>
-     <input type="submit" name="Search"/>
+     <input type="submit" value="Search"/>
      </form>
      <%} %>
 </h2>

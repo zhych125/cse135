@@ -1,4 +1,4 @@
-<%@ page import="data.*,java.util.ArrayList"%>
+<%@ page import="data.*,java.util.ArrayList,java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -8,13 +8,16 @@
 </head>
 <body>
 	<%@ include file="user.jsp"%>
-<body>
 	<% 
   int id=0;
   if(request.getParameter("id")!=null) {
 	id  =Integer.parseInt(request.getParameter("id"));
   }
   ArrayList<categories> categoryList=categories.listAll();
+  HashMap<Integer,categories> categoryMap=new HashMap<Integer,categories>();
+  for(categories category:categoryList) {
+	  categoryMap.put(category.getId(), category);
+  }
 %>
 <jsp:include page="sidebar.jsp">
     <jsp:param name="page" value="products"/>
@@ -98,6 +101,7 @@ if (search==null) {
 		<% 
 
 for (products product:productList) {
+        if(categoryMap.containsKey(product.getCategory_id())) {
 %>
 		<tr>
 			<form action="products.jsp?id=<%=id %>" method="POST">
@@ -119,7 +123,7 @@ for (products product:productList) {
 				</td>
 
 				<td>$<input name="price" type="text"
-					value="<%=product.intToPrice(product.getPrice()) %>" /></td>
+					value="<%=products.intToPrice(product.getPrice()) %>" /></td>
 				<td><input type="submit" value="Update" /></td>
 			</form>
 			<form action="products.jsp?id=<%=id %>" method="POST">
@@ -129,10 +133,11 @@ for (products product:productList) {
 			</form>
 		</tr>
 		<%
+        }
 }
 %>
 		<tr>
-			<form action="products.jsp?=<%=id %>" method="POST">
+			<form action="products.jsp?id=<%=id %>" method="POST">
 				<input name="action" type="hidden" value="insert" />
 				<td><input name="name" type="text" /></td>
 				<td><input name="SKU" type="text" /></td>

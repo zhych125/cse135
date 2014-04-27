@@ -9,7 +9,7 @@
 		user=(users)session.getAttribute("user");
 
 	%>
-	Welcome
+	Hello
     <%=user.getName() %>
     !
 	<jsp:include page="navigation.jsp">

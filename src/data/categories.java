@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dbUtil.dbUtil;
@@ -86,20 +87,15 @@ public class categories {
 			pstmt = con.prepareStatement("DELETE FROM categories WHERE id=?;");
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
-			pstmt.close();
-			pstmt = con
-					.prepareStatement("SELECT * FROM products WHERE category_id=?;");
-			pstmt.setInt(1, id);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				con.rollback();
-			} else {
-				con.commit();
-			}
+			pstmt.close();	
+			con.commit();
 			rs.close();
 			pstmt.close();
-			con.setAutoCommit(true);
+		} catch(SQLException e) {
+			con.rollback();
+			throw e;
 		} finally {
+			con.setAutoCommit(true);
 			dbUtil.close(con, pstmt, rs);
 		}
 	}

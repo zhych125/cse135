@@ -111,8 +111,7 @@ public class products {
 		try {
 			con = dbUtil.connect();
 			if (category_id != 0) {
-				pstmt = con
-						.prepareStatement("SELECT * FROM products WHERE category_id=?;");
+				pstmt = con.prepareStatement("SELECT * FROM products WHERE category_id=?;");
 				pstmt.setInt(1, category_id);
 			} else {
 				pstmt = con.prepareStatement("SELECT * FROM products;");
