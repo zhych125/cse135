@@ -1,8 +1,8 @@
-<%@ page import="data.users" %>
+<%@ page import="data.users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
-    <%
+<%
         boolean signup=false;
         users user=new users();
         user.setName(request.getParameter("user"));

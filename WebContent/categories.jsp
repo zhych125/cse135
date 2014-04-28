@@ -7,7 +7,7 @@
 <title>Categories</title>
 </head>
 <body>
-	   <%
+	<%
     users user=null;
     if(session.getAttribute("user")!=null) {
         user=(users)session.getAttribute("user");
@@ -17,15 +17,15 @@
             response.sendRedirect("user_error.jsp");
         }
     %>
-    <h1>
-    Hello
-    <%=user.getName() %>
-    !
-    </h1>
-    <jsp:include page="navigation.jsp">
-    <jsp:param name="role" value="<%=role%>" />
-    </jsp:include>
-    <%
+	<h1>
+		Hello
+		<%=user.getName() %>
+		!
+	</h1>
+	<jsp:include page="navigation.jsp">
+		<jsp:param name="role" value="<%=role%>" />
+	</jsp:include>
+	<%
     } else {
         response.sendRedirect("user_error.jsp");
     } %>

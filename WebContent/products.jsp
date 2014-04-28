@@ -7,8 +7,8 @@
 <title>Products</title>
 </head>
 <body>
-<!--user identity  -->
-    <%
+	<!--user identity  -->
+	<%
     users user=null;
     if(session.getAttribute("user")!=null) {
         user=(users)session.getAttribute("user");
@@ -18,20 +18,20 @@
         	response.sendRedirect("user_error.jsp");
         }
     %>
-    <h1>
-    Hello
-    <%=user.getName() %>
-    !
-    </h1>
-    <jsp:include page="navigation.jsp">
-    <jsp:param name="role" value="<%=role%>" />
-    </jsp:include>
-    <%
+	<h1>
+		Hello
+		<%=user.getName() %>
+		!
+	</h1>
+	<jsp:include page="navigation.jsp">
+		<jsp:param name="role" value="<%=role%>" />
+	</jsp:include>
+	<%
     } else {
         response.sendRedirect("user_error.jsp");
     } %>
 
-<!--get categories  -->
+	<!--get categories  -->
 	<% 
   int id=0;
   if(request.getParameter("id")!=null) {
@@ -43,14 +43,14 @@
 	  categoryMap.put(category.getId(), category);
   }
 %>
-<jsp:include page="sidebar.jsp">
-    <jsp:param name="page" value="products"/>
-</jsp:include>
-<jsp:include page="search.jsp">
-    <jsp:param name="page" value="products"/>
-</jsp:include>
+	<jsp:include page="sidebar.jsp">
+		<jsp:param name="page" value="products" />
+	</jsp:include>
+	<jsp:include page="search.jsp">
+		<jsp:param name="page" value="products" />
+	</jsp:include>
 
-<!--request parameter parsing  -->
+	<!--request parameter parsing  -->
 	<%
 int product_id=0;
 if(request.getParameter("product_id")!=null)
@@ -119,7 +119,7 @@ if (search==null) {
 }
 %>
 
-<!--presentation -->
+	<!--presentation -->
 	<table>
 		<tr>
 			<th>Name</th>
@@ -140,16 +140,14 @@ for (products product:productList) {
 					value="<%=product.getName() %>" /></td>
 				<td><input name="SKU" type="text"
 					value="<%=product.getSKU() %>" /></td>
-				<td>
-					<select name="category">
+				<td><select name="category">
 						<% for (categories category:categoryList) { %>
 						<option value="<%=category.getId()%>"
 							<%if(product.getCategory_id()==category.getId()) { %>
 							selected="selected" <%} %>>
 							<%=category.getName() %></option>
 						<% } %>
-				</select>
-				</td>
+				</select></td>
 
 				<td>$<input name="price" type="text"
 					value="<%=products.intToPrice(product.getPrice()) %>" /></td>
@@ -170,17 +168,13 @@ for (products product:productList) {
 				<input name="action" type="hidden" value="insert" />
 				<td><input name="name" type="text" /></td>
 				<td><input name="SKU" type="text" /></td>
-				<td>
-					<select name="category">
+				<td><select name="category">
 						<% for (categories category:categoryList) { %>
-						<option value="<%=category.getId()%>" 
-						<% if (id==category.getId()) {%>
-						selected="selected"
-						<%} %>>
-						<%=category.getName() %></option>
+						<option value="<%=category.getId()%>"
+							<% if (id==category.getId()) {%> selected="selected" <%} %>>
+							<%=category.getName() %></option>
 						<% } %>
-				</select>
-				</td>
+				</select></td>
 				<td>$<input name="price" type="text" /></td>
 				<td><input type="submit" value="Insert" /></td>
 			</form>
