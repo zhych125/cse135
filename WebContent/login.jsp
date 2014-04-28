@@ -28,7 +28,7 @@ if (result!=null) {
        	response.sendRedirect("product_browsing.jsp"); 
        }
 } else {
-	session.setAttribute("login_error", "User doesn't exists,please signup first!");
+	session.setAttribute("login_error", "The provided name " + name+ "is not known");
 	response.sendRedirect("welcome.jsp");
 }
 

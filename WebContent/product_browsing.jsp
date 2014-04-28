@@ -7,8 +7,25 @@
 <title>Product Browsing</title>
 </head>
 <body>
-    <%@ include file="user.jsp" %>
-        <% 
+<!--user identity  -->
+    <%
+    users user=null;
+    if(session.getAttribute("user")!=null) {
+        user=(users)session.getAttribute("user");
+
+    %>
+    <h1>
+    Hello
+    <%=user.getName() %>
+    !
+    </h1>
+    <jsp:include page="navigation.jsp">
+    <jsp:param name="role" value="<%=user.getRole()%>" />
+    </jsp:include>
+    
+<!--get categories  -->    
+    <%
+    }
   int id=0;
   if(request.getParameter("id")!=null) {
     id  =Integer.parseInt(request.getParameter("id"));
@@ -26,6 +43,8 @@
     <jsp:param name="page" value="product_browsing"/>
 </jsp:include>
 
+
+<!--search action  -->
     <%
 String search=null;
 if (request.getParameter("search")!=null) {
@@ -35,9 +54,18 @@ ArrayList<products> productList=null;
 if (search==null) {
     productList=products.listProducts(id);
 } else {
-    productList=products.searchProducts(id, search);
+	if(user!=null){
+		productList=products.searchProducts(id, search);
+	} else {
+		productList=products.listProducts(id);
+    %>
+        <p>Please login first <a href="welcome.jsp">login in</a></p>
+    <%
+	}
 }
 %>
+
+<!--presentation  -->
     <table>
         <tr>
             <th>Name</th>
@@ -50,8 +78,9 @@ if (search==null) {
 for (products product:productList) {
     if(categoryMap.containsKey(product.getCategory_id())) {
 %>
-        <tr>
 
+        <tr>
+                
                 <td><%=product.getName() %></td>
                 <td><%=product.getSKU() %></td>
                 <td><%=categoryMap.get(product.getCategory_id()).getName() %>
@@ -59,9 +88,20 @@ for (products product:productList) {
                 <td>$<%=products.intToPrice(product.getPrice()) %>
                </td>
                <td>
-               <a href="product_order.jsp?product_id=<%=product.getId() %>">Buy</a>
+                <form action="product_order.jsp" method="POST">
+                <input name="action" value="add_order" type="hidden"/>
+                <input name="product_id" value="<%=product.getId()%>" type="hidden"/>
+                <input name="name" value="<%=product.getName() %>" type="hidden"/>
+                <input name="SKU" value="<%=product.getSKU() %>" type="hidden"/>
+                <input name="category_id" value="<%=product.getCategory_id()%>" type="hidden"/>
+                <input name="category" value="<%=categoryMap.get(product.getCategory_id()).getName()%>" type="hidden"/>
+                <input name="price" value="<%=product.getPrice() %>" type="hidden"/>
+                <input type="submit" value="Buy">
+               </form>
                </td>
+               
       </tr>
+
         <%
     }
 }

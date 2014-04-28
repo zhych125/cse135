@@ -7,7 +7,31 @@
 <title>Products</title>
 </head>
 <body>
-	<%@ include file="user.jsp"%>
+<!--user identity  -->
+    <%
+    users user=null;
+    if(session.getAttribute("user")!=null) {
+        user=(users)session.getAttribute("user");
+        String role=user.getRole();
+        if(role.equals("customer")) {
+        	session.setAttribute("user_error", "Customer can't log in as Owner");
+        	response.sendRedirect("user_error.jsp");
+        }
+    %>
+    <h1>
+    Hello
+    <%=user.getName() %>
+    !
+    </h1>
+    <jsp:include page="navigation.jsp">
+    <jsp:param name="role" value="<%=role%>" />
+    </jsp:include>
+    <%
+    } else {
+        response.sendRedirect("user_error.jsp");
+    } %>
+
+<!--get categories  -->
 	<% 
   int id=0;
   if(request.getParameter("id")!=null) {
@@ -25,6 +49,8 @@
 <jsp:include page="search.jsp">
     <jsp:param name="page" value="products"/>
 </jsp:include>
+
+<!--request parameter parsing  -->
 	<%
 int product_id=0;
 if(request.getParameter("product_id")!=null)
@@ -45,6 +71,8 @@ int price=0;
 if(request.getParameter("price")!=null&&!request.getParameter("price").equals("")) {
     price=products.priceToInt(request.getParameter("price"));
 }
+
+/*request action parsing  */
 String action=request.getParameter("action");
 if(action!=null&&action.equals("insert")) {
 	products product=new products();
@@ -77,9 +105,8 @@ if(action!=null&&action.equals("insert")) {
 		out.println(e.getMessage());
 	}
 }
-%>
 
-	<%
+/* search action  */
 String search=null;
 if (request.getParameter("search")!=null) {
     search=request.getParameter("search");
@@ -91,6 +118,8 @@ if (search==null) {
     productList=products.searchProducts(id, search);
 }
 %>
+
+<!--presentation -->
 	<table>
 		<tr>
 			<th>Name</th>

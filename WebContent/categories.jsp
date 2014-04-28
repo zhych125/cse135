@@ -7,7 +7,28 @@
 <title>Categories</title>
 </head>
 <body>
-	<%@ include file="user.jsp"%>
+	   <%
+    users user=null;
+    if(session.getAttribute("user")!=null) {
+        user=(users)session.getAttribute("user");
+        String role=user.getRole();
+        if(role.equals("customer")) {
+            session.setAttribute("user_error", "Customer can't log in as Owner");
+            response.sendRedirect("user_error.jsp");
+        }
+    %>
+    <h1>
+    Hello
+    <%=user.getName() %>
+    !
+    </h1>
+    <jsp:include page="navigation.jsp">
+    <jsp:param name="role" value="<%=role%>" />
+    </jsp:include>
+    <%
+    } else {
+        response.sendRedirect("user_error.jsp");
+    } %>
 	<%
 int category_id=0;
 if(request.getParameter("category_id")!=null) {

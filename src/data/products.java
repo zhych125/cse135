@@ -12,9 +12,27 @@ public class products {
 	private String name;
 	private String SKU;
 	private int category_id;
+	private String category;
 	private int price;
 	private int id;
+	private int num;
+	
+	public String getCategory() {
+		return category;
+	}
 
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public int getNum() {
+		return num;
+	}
+	
+	public void setNum(int num) {
+		this.num=num;
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -24,7 +24,7 @@
         String login_error=(String) session.getAttribute("login_error");
         session.removeAttribute("login_error");
 %>
-    <p>Login unsuccessful with error message: <%=login_error %></p>
+    <p><%=login_error %></p>
 <%
     }
 %>

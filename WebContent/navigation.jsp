@@ -7,9 +7,9 @@
    if (request.getParameter("role").equals("owner")) { %>
 		<li><a href="categories.jsp">Categories</a></li>
 		<li><a href="products.jsp">Product</a></li>
+		<li><a href="product_browsing.jsp">Product Browsing</a></li>
 		<%} else { %>
 		<li><a href="product_browsing.jsp">Product Browsing</a></li>
-		<li><a href="product_order.jsp">Product Order</a></li>
 		<li><a href="shopping_cart.jsp">Buy Shopping Cart</a></li>
 		<%} %>
 	</ul>
