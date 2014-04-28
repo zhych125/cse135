@@ -62,15 +62,17 @@
     		added=productsMap.get(Integer.parseInt(request.getParameter("product_id")));
     	} else {
     		 added=new products(); 
+    		 added.setId(Integer.parseInt(request.getParameter("product_id")));
+	         added.setName(request.getParameter("name"));
+	         added.setSKU(request.getParameter("SKU"));
+	         added.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
+	         added.setCategory(request.getParameter("category"));
+	         added.setPrice(Integer.parseInt(request.getParameter("price")));
     	}
-        added.setId(Integer.parseInt(request.getParameter("product_id")));
-        added.setName(request.getParameter("name"));
-        added.setSKU(request.getParameter("SKU"));
-        added.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
-        added.setCategory(request.getParameter("category"));
-        added.setPrice(Integer.parseInt(request.getParameter("price")));
-        added.setNum(Integer.parseInt(request.getParameter("number"))+added.getNum());
-        productsMap.put(Integer.parseInt(request.getParameter("product_id")), added);
+    	if(added.getNum()+Integer.parseInt(request.getParameter("number"))>0){
+    		added.setNum(Integer.parseInt(request.getParameter("number"))+added.getNum());
+            productsMap.put(Integer.parseInt(request.getParameter("product_id")), added);
+        }
         session.setAttribute("product_order", productsMap);
         response.sendRedirect("product_browsing.jsp");
     }

@@ -8,10 +8,20 @@ import dbUtil.dbUtil;
 
 public class users {
 	private static Connection con = null;
+	private int id;
 	private String name;
 	private int age;
 	private String role;
 	private String state;
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -62,20 +72,23 @@ public class users {
 		}
 	}
 
-	public static users checkUser(users user) throws Exception {
+	public static users fetchUser(users user) throws Exception {
 		users result = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = dbUtil.connect();
-			String stmtString = "SELECT role FROM users Where name=?;";
+			String stmtString = "SELECT * FROM users Where name=?;";
 			pstmt = con.prepareStatement(stmtString);
 			pstmt.setString(1, user.getName());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				result = new users();
-				result.setName(user.getName());
-				result.setRole(rs.getString(1));
+				result.setId(rs.getInt(1));
+				result.setName(rs.getString(2));
+				result.setAge(rs.getInt(3));
+				result.setState(rs.getString(4));
+				result.setRole(rs.getString(5));
 			}
 			rs.close();
 			pstmt.close();

@@ -14,7 +14,7 @@ users user=new users();
 user.setName(name);
 users result=null;
 try{
-	result=users.checkUser(user);
+	result=users.fetchUser(user);
 } catch(Exception e) {
 	session.setAttribute("login_error", e.getMessage());
 	response.sendRedirect("welcome.jsp");
@@ -28,7 +28,7 @@ if (result!=null) {
        	response.sendRedirect("product_browsing.jsp"); 
        }
 } else {
-	session.setAttribute("login_error", "The provided name " + name+ "is not known");
+	session.setAttribute("login_error", "The provided name " + name+ " is not known");
 	response.sendRedirect("welcome.jsp");
 }
 

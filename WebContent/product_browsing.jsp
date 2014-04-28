@@ -25,6 +25,10 @@
 
 	<!--get categories  -->
 	<%
+    } else {
+    %>
+    <p><a href="welcome.jsp">log in</a></p>
+    <%	
     }
   int id=0;
   if(request.getParameter("id")!=null) {

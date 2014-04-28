@@ -3,7 +3,11 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import data.users;
 import dbUtil.dbUtil;
 
 public class products {
@@ -196,6 +200,40 @@ public class products {
 	public static int priceToInt(String price) {
 		int iprice = (int) (Float.parseFloat(price) * 100);
 		return iprice;
+	}
+	
+	public static void purchase(HashMap<Integer,products> productsMap,users user,String credit_card) throws Exception{
+		PreparedStatement pstmt = null;
+		if (user==null||!user.getRole().equals("customer")) {
+			throw new Exception("Not a valid customer");
+		}
+		if(productsMap==null||productsMap.isEmpty()) {
+			throw new Exception("Nothing to purchase");
+		}
+		String regex = "[0-9]+";
+		if(credit_card==null||credit_card.isEmpty()||!credit_card.matches(regex)||credit_card.length()<16||credit_card.length()>16) {
+			throw new Exception("Invalid credit card number");
+		}
+		try {
+			con = dbUtil.connect();
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement("INSERT INTO purchase(customer_id,product_id,amount,credit_card) VALUES(?,?,?,?);");
+			pstmt.setInt(1, user.getId());
+			pstmt.setString(4, credit_card);
+			for(int product_id:productsMap.keySet()) {
+				pstmt.setInt(2,product_id);
+				pstmt.setInt(3, productsMap.get(product_id).getNum());
+				pstmt.executeUpdate();
+			}
+			con.commit();
+			pstmt.close();
+		} catch(SQLException e) {
+			con.rollback();
+			throw e;
+		} finally {
+			con.setAutoCommit(true);
+			dbUtil.close(con, pstmt, null);
+		}
 	}
 
 }

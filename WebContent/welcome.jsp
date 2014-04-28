@@ -11,7 +11,7 @@
     	session.removeAttribute("signup_name");
     	if(signup==true) {
 %>
-<p><%=name %>has successfully signup!
+<p><%=name %> has successfully signup!
 </p>
 <%
     	} else {
