@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>User Error</title>
 </head>
 <body>
@@ -11,18 +12,18 @@
     	String user_error=(String)session.getAttribute("user_error");
     	session.removeAttribute("user_error");
 %>
-	<h1><%=user_error %></h1>
+	<p class="error"><%=user_error %></p>
 	<% 
 
     } else {
 %>
-	<h1>Please log in first</h1>
+	<p class="error">Please log in first</p>
 	<% 
     }
 %>
 
-	<h2>
+	<p>
 		<a href="welcome.jsp">log in</a>
-	</h2>
+	</p>
 </body>
 </html>

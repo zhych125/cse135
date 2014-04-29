@@ -8,7 +8,7 @@
    }
 %>
 <div class="search">
-	<h2>
+	<p>
 		Search:
 		<% if(request.getParameter("page").equals("products")) {
    %>
@@ -22,5 +22,5 @@
 				value="<%=id %>" /> <input type="submit" value="Search" />
 		</form>
 		<%} %>
-	</h2>
+	</p>
 </div>

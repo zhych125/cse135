@@ -4,6 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Shopping Cart</title>
 </head>
 <body>

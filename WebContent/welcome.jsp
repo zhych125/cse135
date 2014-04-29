@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
+
 <%@ include file="login.html"%>
 <%
     if(session.getAttribute("signup")!=null) {
@@ -11,14 +12,14 @@
     	session.removeAttribute("signup_name");
     	if(signup==true) {
 %>
-<p><%=name %> has successfully signup!
+<p class="success"><%=name %> has successfully signup!
 </p>
 <%
     	} else {
     	String signup_error=(String) session.getAttribute("signup_error");
     	session.removeAttribute("signup_error");
 %>
-<p>
+<p class="error">
 	Signup unsuccessful with error message:
 	<%=signup_error %></p>
 <%
@@ -27,7 +28,7 @@
         String login_error=(String) session.getAttribute("login_error");
         session.removeAttribute("login_error");
 %>
-<p><%=login_error %></p>
+<p class="error"><%=login_error %></p>
 <%
     }
 %>

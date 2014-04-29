@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Product Browsing</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
 	<%
     } else {
     %>
-    <p><a href="welcome.jsp">log in</a></p>
+    <p class="error" ><a href="welcome.jsp">log in</a></p>
     <%	
     }
   int id=0;
@@ -63,7 +64,7 @@ if (search==null) {
 	} else {
 		productList=products.listProducts(id);
     %>
-	<p>
+	<p class="error">
 		Please login first <a href="welcome.jsp">login in</a>
 	</p>
 	<%
