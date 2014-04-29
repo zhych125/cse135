@@ -8,8 +8,7 @@
    }
 %>
 <div class="search">
-	<h2>
-		Search:
+	<p>
 		<% if(request.getParameter("page").equals("products")) {
    %>
 		<form action="products.jsp" method="GET">
@@ -18,9 +17,11 @@
 		</form>
 		<%} else { %>
 		<form action="product_browsing.jsp" method="GET">
-			<input type="text" name="search" /> <input type="hidden" name="id"
-				value="<%=id %>" /> <input type="submit" value="Search" />
+			<input type="text" name="search" />
+			 <input type="hidden" name="id"
+				value="<%=id %>" /> 
+			<div class="button"><input type="submit" value="Search" /></div>
 		</form>
 		<%} %>
-	</h2>
+	</p>
 </div>

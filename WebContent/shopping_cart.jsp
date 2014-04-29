@@ -4,6 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Shopping Cart</title>
 </head>
 <body>
@@ -83,7 +84,7 @@
     </table>
     <form action="confirm.jsp" method="POST">
         <p>Credit Card Number: <input type="text" size="20" name="credit_card"/></p>
-        <input type="submit" value="Purchase"/>
+        <div class="button"><input type="submit" value="Purchase"/></div>
     </form> 
 </body>
 </html>

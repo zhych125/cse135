@@ -31,12 +31,12 @@ try{
 	
 %>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Confirmation</title>
 </head>
 <body>
 <h3>Congratulations, Your Order has been processed</h3>
 <h3>You Have Bought: </h3>
-<p>
  <table>
         <tr>
             <th>Name</th>
@@ -73,7 +73,6 @@ try{
             <td>$<%=products.intToPrice(totalPrice)%></td>
         </tr>
     </table>
-</p>
 <a href="product_browsing.jsp">Continue Shopping!</a>
 </body>
 <%
@@ -84,7 +83,7 @@ try{
 <title>Error</title>
 </head>
 <body>
-<p><%=e.getMessage() %></p>
+<p class="error"><%=e.getMessage() %></p>
 <a href="product_browsing.jsp">Continue Shopping!</a>
 </body>
 <%

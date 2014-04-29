@@ -4,6 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Product Order</title>
 </head>
 <body>
@@ -121,10 +122,10 @@
 			<input type="hidden" name="category_id"
 				value="<%=newProduct.getCategory_id() %>" />
 			<input type="hidden" name="price" value="<%=newProduct.getPrice() %>" />
-			<td><input type="submit" /></td>
+			<td><div class="button"><input type="submit" /></div></td>
 			</form>
-
+        </tr>
 			<% }%>
-		
+	</table>	
 </body>
 </html>
