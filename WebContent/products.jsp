@@ -152,12 +152,12 @@ for (products product:productList) {
 
 				<td>$<input name="price" type="text"
 					value="<%=products.intToPrice(product.getPrice()) %>" /></td>
-				<td><input type="submit" value="Update" /></td>
+				<td><div class="button"><input type="submit" value="Update" /></div></td>
 			</form>
 			<form action="products.jsp?id=<%=id %>" method="POST">
 				<input name="action" type="hidden" value="delete" /> <input
 					name="product_id" type="hidden" value="<%=product.getId() %>" />
-				<td><input type="submit" value="Delete" /></td>
+				<td><div class="button"><input type="submit" value="Delete" /></div></td>
 			</form>
 		</tr>
 		<%
@@ -177,7 +177,7 @@ for (products product:productList) {
 						<% } %>
 				</select></td>
 				<td>$<input name="price" type="text" /></td>
-				<td><input type="submit" value="Insert" /></td>
+				<td><div class="button"><input type="submit" value="Insert" /></div></td>
 			</form>
 		</tr>
 	</table>

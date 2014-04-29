@@ -122,7 +122,7 @@
 			<input type="hidden" name="category_id"
 				value="<%=newProduct.getCategory_id() %>" />
 			<input type="hidden" name="price" value="<%=newProduct.getPrice() %>" />
-			<td><input type="submit" /></td>
+			<td><div class="button"><input type="submit" /></div></td>
 			</form>
         </tr>
 			<% }%>

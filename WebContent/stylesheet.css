@@ -1,32 +1,50 @@
 @CHARSET "UTF-8";
-h1 {
-	
-}
+h1
+{ font: normal 150% 'lucida sans unicode', arial, sans-serif;
+  color: #FFA70F;
+  margin: auto;
+  padding: 15px 0 0px 0;}
 p {
 	
 }
 
 table {
+	position: absolute;
+	margin-top: 50px;
+	margin-left: 250px;
 }
 
+nav { height: 31px;
+  width: 900px;
+  margin-top: -31px;
+  margin-left: 200px;
+  position: relative;
+}
 table th {
-	
+	font-family: serif;
 }
 
 table td {
-	
+	font-family: serif;
 }
 
 .search {
-	
+	position: relative;
+	left : 200px;
 }
 
-a {
-	
+a
+{ background: #FFF;
+  color: #0c0;
+  border-color: #FFA70F;
 }
 
-.sidebar {
-	
+.sidebar
+{ text-align: left;
+  width: 184px;
+  float: left;
+  vertical-align: middle;
+  margin: 0px 0px 0px 4px;
 }
 
 .error {

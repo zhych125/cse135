@@ -103,8 +103,8 @@ for (products product:productList) {
 						type="hidden" /> <input name="category"
 						value="<%=categoryMap.get(product.getCategory_id()).getName()%>"
 						type="hidden" /> <input name="price"
-						value="<%=product.getPrice() %>" type="hidden" /> <input
-						type="submit" value="Buy">
+						value="<%=product.getPrice() %>" type="hidden" />
+						 <input type="submit" value="Buy"/>
 				</form>
 			</td>
 
