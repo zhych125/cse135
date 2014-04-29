@@ -5,6 +5,14 @@
 <html>
 <head>
 <title>Products</title>
+<style type="text/css">
+table.line
+{
+	position:relative;
+	left:175px;
+	top:-180px
+}
+</style>
 </head>
 <body>
 	<!--user identity  -->
@@ -120,7 +128,7 @@ if (search==null) {
 %>
 
 	<!--presentation -->
-	<table>
+	<table class="line">
 		<tr>
 			<th>Name</th>
 			<th>SKU</th>
