@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
-
+<p class="welcome">Welcome!</p>
 <%@ include file="login.html"%>
 <%
     if(session.getAttribute("signup")!=null) {

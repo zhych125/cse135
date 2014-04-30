@@ -73,7 +73,7 @@ if (search==null) {
 %>
 
 	<!--presentation  -->
-	<table>
+	<table class="table_browsing">
 		<tr>
 			<th>Name</th>
 			<th>SKU</th>

@@ -46,7 +46,7 @@
      %>
      
         <!--presentation  -->
-    <table>
+    <table class="table_browsing">
         <tr>
             <th>Name</th>
             <th>SKU</th>
@@ -78,13 +78,13 @@
             <td>    </td>
             <td>    </td>
             <td>    </td>
-            <td>Total Purchase:</td>
+            <td>Total:</td>
             <td>$<%=products.intToPrice(totalPrice)%></td>
         </tr>
     </table>
     <form action="confirm.jsp" method="POST">
-        <p>Credit Card Number: <input type="text" size="20" name="credit_card"/></p>
-        <div class="button"><input type="submit" value="Purchase"/></div>
+        <p class="creditcard">Credit Card Number: <input type="text" size="20" name="credit_card"/>
+       <input type="submit" value="Purchase"/></p>
     </form> 
 </body>
 </html>

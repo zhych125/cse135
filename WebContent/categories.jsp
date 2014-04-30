@@ -67,7 +67,7 @@ if(action!=null&&action.equals("insert")) {
 	}
 }
 %>
-	<table>
+	<table class="table_browsing">
 		<tr>
 			<th>Category</th>
 			<th>Description</th>

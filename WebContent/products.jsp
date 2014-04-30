@@ -6,14 +6,6 @@
 <head>
 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 <title>Products</title>
-<style type="text/css">
-table.line
-{
-	position:relative;
-	left:175px;
-	top:-180px
-}
-</style>
 </head>
 <body>
 	<!--user identity  -->
@@ -129,8 +121,8 @@ if (search==null) {
 %>
 
 	<!--presentation -->
-	<table class="line">
-		<tr>
+	<table>
+		<tr id="product">
 			<th>Name</th>
 			<th>SKU</th>
 			<th>Category</th>
@@ -141,7 +133,7 @@ if (search==null) {
 for (products product:productList) {
         if(categoryMap.containsKey(product.getCategory_id())) {
 %>
-		<tr>
+		<tr id="product">
 			<form action="products.jsp?id=<%=id %>" method="POST">
 				<input name="action" type="hidden" value="update" /> <input
 					name="product_id" type="hidden" value="<%=product.getId() %>" />
@@ -172,7 +164,7 @@ for (products product:productList) {
         }
 }
 %>
-		<tr>
+		<tr id="product">
 			<form action="products.jsp?id=<%=id %>" method="POST">
 				<input name="action" type="hidden" value="insert" />
 				<td><input name="name" type="text" /></td>

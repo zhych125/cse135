@@ -1,9 +1,38 @@
 @CHARSET "UTF-8";
+
+body{background-color:#003366;}
+#nav ul {
+	height: 80px;
+  	width: 1900px;
+  	margin-top: -81px;
+  	margin-left: 200px;
+  	position: relative;
+  	list-style:none;
+}
+#nav ul li {
+	font-family:gulim;
+	float:left;
+	font-weight:bold;
+	margin:15px;
+	margin-top: 25px;
+}
+#nav ul li a{
+	color:white;
+}
+#nav ul li a:hover{
+	color:#003366;
+}
 h1
-{ font: normal 150% 'lucida sans unicode', arial, sans-serif;
-  color: #FFA70F;
-  margin: auto;
-  padding: 15px 0 0px 0;}
+{ 
+	font: normal 150% 'lucida sans unicode', arial, sans-serif;
+	font-weight:bold;
+  	color: white;
+  	position:relative;
+  	margin-left:20px;
+  	top:-17px;
+  	/*margin: auto;*/
+  	padding: 15px 0 0px 0;
+}
 p {
 	
 }
@@ -12,14 +41,18 @@ table {
 	position: absolute;
 	margin-top: 50px;
 	margin-left: 250px;
+	font-family:gulim;
+	color:white;
 }
 
-nav { height: 31px;
+/* nav { height: 31px;
   width: 900px;
   margin-top: -31px;
   margin-left: 200px;
   position: relative;
-}
+} */
+
+
 table th {
 	font-family: serif;
 }
@@ -28,25 +61,98 @@ table td {
 	font-family: serif;
 }
 
+#product{
+	font-family:'lucida sans unicode', arial, sans-serif;
+	font-weight:bold;
+	color:white;
+}
+
 .search {
 	position: relative;
-	left : 200px;
+	margin-top: -71px;
+  	margin-left: 900px;
 }
 
 a
-{ background: #FFF;
-  color: #0c0;
-  border-color: #FFA70F;
+{ 
+  	/*color: #0c0;*/
+  	color:white;
+  /*border-color: #FFA70F;*/
 }
 
 .sidebar
-{ text-align: left;
-  width: 184px;
-  float: left;
-  vertical-align: middle;
-  margin: 0px 0px 0px 4px;
+{ 
+	font-family:gulim;
+	font-size:120%;
+	font-weight:bold;
+	list-style:none;
+	text-align: left;
+  	width: 184px;
+  	float: left;
+  	vertical-align: middle;
+  	margin: 0px 0px 0px 4px;
 }
-
+.sidebarli
+{
+	margin-top:15px;
+}
+.sidebarli a{
+	text-decoration:none;
+	color:white;
+}
+.sidebarli a:hover{
+	font-weight:bold;
+	color:gray;
+}
+.welcome
+{
+	font-size:300%;
+	color:white;
+	font-family:Cursive;
+	position:fixed;
+	top:25%;
+	left:38.5%;
+}
+.login
+{
+	position:fixed;
+	top:50%;
+	left:35%;
+	color:white;
+	font-family:gulim;
+}
+.loginsignup
+{
+	position:fixed;
+	top:55%;
+	left:39%;
+	color:white;
+	font-family:gulim;
+	font-size:90%;
+}
+.logina
+{
+	position:fixed;
+	top:65%;
+	left:44.5%;
+	color:white;
+	font-family:gulim;
+	font-size:90%;
+}
 .error {
 	color: red;
+}
+.table_browsing{
+	border-spacing:30px;
+}
+.table_browsing tr td{
+	padding:5px;
+	margin:5px;
+}
+.creditcard{
+	position:fixed;
+	top:15%;
+	left:35%;
+	color:white;
+	font-family:gulim;
 }

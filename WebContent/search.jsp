@@ -20,7 +20,7 @@
 			<input type="text" name="search" />
 			 <input type="hidden" name="id"
 				value="<%=id %>" /> 
-			<div class="button"><input type="submit" value="Search" /></div>
+			<input type="submit" value="Search" />
 		</form>
 		<%} %>
 	</p>
