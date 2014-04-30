@@ -83,6 +83,7 @@ if(action!=null&&action.equals("insert")) {
 	product.setPrice(price);
 	try{
 		   products.addProduct(product);
+		   out.println("product " +product.getName()+" has been successfully added");
 	} catch(Exception e) {
 		out.println("Failure to insert new product");
 	}
@@ -96,12 +97,14 @@ if(action!=null&&action.equals("insert")) {
 
     try{
         products.updateProduct(product);
+        out.println("product " +product.getName()+" has been successfully updated");
     } catch(Exception e) {
     	out.println("Failure to update product");
     }
 } else if(action!=null&&action.equals("delete")) {
 	try{
 		products.deleteProduct(product_id);
+		out.println("product " +name+" has been successfully deleted");
 	} catch(Exception e) {
 		out.println("Failure to delete product");
 	}
@@ -155,8 +158,9 @@ for (products product:productList) {
 				<td><div class="button"><input type="submit" value="Update" /></div></td>
 			</form>
 			<form action="products.jsp?id=<%=id %>" method="POST">
-				<input name="action" type="hidden" value="delete" /> <input
-					name="product_id" type="hidden" value="<%=product.getId() %>" />
+				<input name="action" type="hidden" value="delete" />
+				 <input name="product_id" type="hidden" value="<%=product.getId() %>" />
+				 <input name="name" type="hidden" value="<%=product.getId() %>" />
 				<td><div class="button"><input type="submit" value="Delete" /></div></td>
 			</form>
 		</tr>

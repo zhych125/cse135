@@ -46,6 +46,7 @@ if(action!=null&&action.equals("insert")) {
 	category.setDescription(request.getParameter("description"));
 	try {
 		   categories.save(category);
+		   out.println("Category "+category.getName()+" successfully added");
 	} catch (Exception e){
 		out.println("Can't insert new category");
 	}
@@ -56,12 +57,14 @@ if(action!=null&&action.equals("insert")) {
 	category.setDescription(request.getParameter("description"));
 	try {
 		categories.update(category);
+		out.println("Category "+category.getName()+" successfully updated");
 	} catch(Exception e) {
 		out.println("Can't update category");
 	}
 } else if(action!=null&&action.equals("delete")) {
 	try {
 		categories.delete(category_id);
+		out.println("Category "+name+" successfully deleted");
 	} catch(Exception e) {
 		out.println("Can't delete category");
 	}
@@ -87,8 +90,9 @@ for (categories category:list) {
 			</form>
 			<%if(products.listProducts(category.getId()).size()==0) { %>
 			<form action="categories.jsp" method="POST">
-				<input name="action" type="hidden" value="delete" /> <input
-					name="category_id" type="hidden" value="<%=category.getId() %>" />
+				<input name="action" type="hidden" value="delete" /> 
+				<input name="category_id" type="hidden" value="<%=category.getId() %>" />
+				<input name="name" type="hidden" value="<%=category.getName() %>" />
 				<td><input type="submit" value="Delete" /></td>
 			</form>
 			<%} %>
