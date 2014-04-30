@@ -70,8 +70,14 @@
 	         added.setCategory(request.getParameter("category"));
 	         added.setPrice(Integer.parseInt(request.getParameter("price")));
     	}
-    	if(added.getNum()+Integer.parseInt(request.getParameter("number"))>0){
-    		added.setNum(Integer.parseInt(request.getParameter("number"))+added.getNum());
+    	int requestAmount=0;
+    	try {
+    		requestAmount=Integer.parseInt(request.getParameter("number"));
+    	} catch (Exception e){
+    		out.println("Not valid amount");
+    	}
+    	if(requestAmount>0){
+    		added.setNum(requestAmount+added.getNum());
             productsMap.put(Integer.parseInt(request.getParameter("product_id")), added);
         }
         session.setAttribute("product_order", productsMap);

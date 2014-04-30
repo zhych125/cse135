@@ -30,7 +30,7 @@ CREATE TABLE products (
 CREATE TABLE purchase (
   id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES users(id) NOT NULL,
-  product_id INTEGER REFERENCES products(id) NOT NULL,
+  product_id INTEGER,
   amount INTEGER NOT NULL CHECK (amount>0),
   credit_card VARCHAR(16) NOT NULL
 );

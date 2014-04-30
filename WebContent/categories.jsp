@@ -47,7 +47,7 @@ if(action!=null&&action.equals("insert")) {
 	try {
 		   categories.save(category);
 	} catch (Exception e){
-		out.println(e.getMessage());
+		out.println("Can't insert new category");
 	}
 } else if(action!=null&&action.equals("update")) {
 	categories category=new categories();
@@ -57,13 +57,13 @@ if(action!=null&&action.equals("insert")) {
 	try {
 		categories.update(category);
 	} catch(Exception e) {
-		out.println(e.getMessage());
+		out.println("Can't update category");
 	}
 } else if(action!=null&&action.equals("delete")) {
 	try {
 		categories.delete(category_id);
 	} catch(Exception e) {
-		out.println(e.getMessage());
+		out.println("Can't delete category");
 	}
 }
 %>

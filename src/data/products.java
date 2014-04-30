@@ -198,12 +198,19 @@ public class products {
 	}
 
 	public static int priceToInt(String price) {
-		int iprice = (int) (Float.parseFloat(price) * 100);
+		int iprice=0;
+		try {
+			iprice = (int) (Float.parseFloat(price) * 100);
+		} catch (Exception e){
+			return 0;
+		}
 		return iprice;
 	}
 	
 	public static void purchase(HashMap<Integer,products> productsMap,users user,String credit_card) throws Exception{
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmtQuery=null;
+		ResultSet rs=null;
 		if (user==null||!user.getRole().equals("customer")) {
 			throw new Exception("Not a valid customer");
 		}
@@ -218,9 +225,15 @@ public class products {
 			con = dbUtil.connect();
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement("INSERT INTO purchase(customer_id,product_id,amount,credit_card) VALUES(?,?,?,?);");
+			pstmtQuery=con.prepareStatement("SELECT id FROM products WHERE id=?;");
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(4, credit_card);
 			for(int product_id:productsMap.keySet()) {
+				pstmtQuery.setInt(1, product_id);
+				rs=pstmtQuery.executeQuery();
+				if(!rs.next()) {
+					throw new Exception("product no longer exists");
+				}
 				pstmt.setInt(2,product_id);
 				pstmt.setInt(3, productsMap.get(product_id).getNum());
 				pstmt.executeUpdate();
@@ -230,9 +243,15 @@ public class products {
 		} catch(SQLException e) {
 			con.rollback();
 			throw e;
-		} finally {
+		} catch (Exception e) {
+			if (e.getMessage().equals("product no longer exists")) {
+				con.rollback();
+			}
+			throw e;
+		}	finally {
 			con.setAutoCommit(true);
-			dbUtil.close(con, pstmt, null);
+			dbUtil.close(null, pstmtQuery, null);
+			dbUtil.close(con, pstmt, rs);
 		}
 	}
 

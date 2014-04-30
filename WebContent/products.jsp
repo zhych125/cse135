@@ -84,7 +84,7 @@ if(action!=null&&action.equals("insert")) {
 	try{
 		   products.addProduct(product);
 	} catch(Exception e) {
-		out.println(e.getMessage());
+		out.println("Failure to insert new product");
 	}
 } else if (action!=null&&action.equals("update")) {
 	products product=new products();
@@ -97,13 +97,13 @@ if(action!=null&&action.equals("insert")) {
     try{
         products.updateProduct(product);
     } catch(Exception e) {
-    	out.println(e.getMessage());
+    	out.println("Failure to update product");
     }
 } else if(action!=null&&action.equals("delete")) {
 	try{
 		products.deleteProduct(product_id);
 	} catch(Exception e) {
-		out.println(e.getMessage());
+		out.println("Failure to delete product");
 	}
 }
 
