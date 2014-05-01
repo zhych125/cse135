@@ -20,9 +20,8 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
+  SKU TEXT NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
-  SKU TEXT NOT NULL UNIQUE,
   category_id INTEGER REFERENCES categories(id) NOT NULL,
   price INTEGER NOT NULL CHECK (price>0)
 );
@@ -30,7 +29,7 @@ CREATE TABLE products (
 CREATE TABLE purchase (
   id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES users(id) NOT NULL,
-  product_id INTEGER REFERENCES products(id) NOT NULL,
+  SKU TEXT NOT NULL,
   amount INTEGER NOT NULL CHECK (amount>0),
   credit_card VARCHAR(16) NOT NULL
 );

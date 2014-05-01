@@ -21,9 +21,9 @@
     %>
 
 <%
-HashMap<Integer,products> productsMap=(HashMap<Integer,products>)session.getAttribute("product_order");
+HashMap<String,products> productsMap=(HashMap<String,products>)session.getAttribute("product_order");
 if (productsMap==null) {
-	productsMap=new HashMap<Integer,products>();
+	productsMap=new HashMap<String,products>();
 }
 String credit_card=request.getParameter("credit_card");
 try{
@@ -48,7 +48,17 @@ try{
         </tr>
         <%
         int totalPrice=0;
-     for(products product:productsMap.values()) {
+        for(String SKU:productsMap.keySet()) {
+            products product=null;
+            try {
+                product=products.productFromSKU(SKU);
+                product.setNum(productsMap.get(SKU).getNum());
+            } catch(Exception e) {
+         %>
+                <tr>not valid product</tr>
+     <%
+                 continue;
+            }
      %>
         <tr>
 

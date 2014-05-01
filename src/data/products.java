@@ -18,31 +18,22 @@ public class products {
 	private int category_id;
 	private String category;
 	private int price;
-	private int id;
 	private int num;
+
+	public String getSKU() {
+		return SKU;
+	}
+
+	public void setSKU(String SKU) {
+		this.SKU = SKU;
+	}
 	
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public int getNum() {
 		return num;
 	}
 	
 	public void setNum(int num) {
 		this.num=num;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -53,12 +44,12 @@ public class products {
 		this.name = name;
 	}
 
-	public String getSKU() {
-		return SKU;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setSKU(String sKU) {
-		SKU = sKU;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public int getCategory_id() {
@@ -94,17 +85,20 @@ public class products {
 		}
 	}
 
-	public static void updateProduct(products product) throws Exception {
+	public static void updateProduct(products product,String SKU) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
+			if(SKU==null) {
+				throw new Exception();
+			}
 			con = dbUtil.connect();
 			pstmt = con
-					.prepareStatement("UPDATE products SET name=?,SKU=?,category_id=?,price=? WHERE id=?;");
-			pstmt.setString(1, product.getName());
-			pstmt.setString(2, product.getSKU());
+					.prepareStatement("UPDATE products SET SKU=?,name=?,category_id=?,price=? WHERE SKU=?;");
+			pstmt.setString(1, product.getSKU());
+			pstmt.setString(2, product.getName());
 			pstmt.setInt(3, product.getCategory_id());
 			pstmt.setInt(4, product.getPrice());
-			pstmt.setInt(5, product.getId());
+			pstmt.setString(5, SKU);
 			pstmt.executeUpdate();
 			pstmt.close();
 		} finally {
@@ -112,12 +106,12 @@ public class products {
 		}
 	}
 
-	public static void deleteProduct(int id) throws Exception {
+	public static void deleteProduct(String SKU) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			con = dbUtil.connect();
-			pstmt = con.prepareStatement("DELETE FROM products WHERE id=?");
-			pstmt.setInt(1, id);
+			pstmt = con.prepareStatement("DELETE FROM products WHERE SKU=?");
+			pstmt.setString(1, SKU);
 			pstmt.executeUpdate();
 			pstmt.close();
 		} finally {
@@ -141,11 +135,10 @@ public class products {
 			rs = pstmt.executeQuery(); 
 			while (rs.next()) {
 				products product = new products();
-				product.setId(rs.getInt(1));
+				product.setSKU(rs.getString(1));
 				product.setName(rs.getString(2));
-				product.setSKU(rs.getString(3));
-				product.setCategory_id(rs.getInt(4));
-				product.setPrice(rs.getInt(5));
+				product.setCategory_id(rs.getInt(3));
+				product.setPrice(rs.getInt(4));
 				list.add(product);
 			}
 			rs.close();
@@ -176,12 +169,11 @@ public class products {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				products product = new products();
-				product.setId(rs.getInt(1));
+				products product = new products();;
+				product.setSKU(rs.getString(1));
 				product.setName(rs.getString(2));
-				product.setSKU(rs.getString(3));
-				product.setCategory_id(rs.getInt(4));
-				product.setPrice(rs.getInt(5));
+				product.setCategory_id(rs.getInt(3));
+				product.setPrice(rs.getInt(4));
 				list.add(product);
 			}
 			rs.close();
@@ -206,9 +198,48 @@ public class products {
 		}
 		return iprice;
 	}
-	
-	public static void purchase(HashMap<Integer,products> productsMap,users user,String credit_card) throws Exception{
+	public static products productFromSKU(String SKU) throws Exception{
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2=null;
+		ResultSet rs=null;
+		ResultSet rs2=null;
+		products newProduct=null;
+		try {
+			con=dbUtil.connect();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement("SELECT * FROM products WHERE SKU=?");
+			pstmt2=con.prepareStatement("SELECT name FROM categories WHERE id=?");
+			pstmt.setString(1, SKU);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				newProduct=new products();
+				newProduct.setSKU(SKU);
+				newProduct.setName(rs.getString(2));
+				newProduct.setCategory_id(rs.getInt(3));
+				newProduct.setPrice(rs.getInt(4));
+				pstmt2.setInt(1, rs.getInt(3));
+				rs2=pstmt2.executeQuery();
+				if(rs2.next()) {
+					newProduct.setCategory(rs2.getString(1));
+				}
+			} else {
+				throw new Exception();
+			}
+			con.commit();	
+		} catch(Exception e) {
+			con.rollback();
+			throw e;
+		} finally {
+			con.setAutoCommit(true);
+			dbUtil.close(null, pstmt2, rs2);
+			dbUtil.close(con, pstmt, rs);
+		}
+		return newProduct;
+	}
+	public static void purchase(HashMap<String,products> productsMap,users user,String credit_card) throws Exception{
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtQuery=null;
+		ResultSet rs=null;
 		if (user==null||!user.getRole().equals("customer")) {
 			throw new Exception("Not a valid customer");
 		}
@@ -222,22 +253,29 @@ public class products {
 		try {
 			con = dbUtil.connect();
 			con.setAutoCommit(false);
-			pstmt = con.prepareStatement("INSERT INTO purchase(customer_id,product_id,amount,credit_card) VALUES(?,?,?,?);");
+			pstmtQuery=con.prepareStatement("SELECT * FROM products WHERE SKU=?");
+			pstmt = con.prepareStatement("INSERT INTO purchase(customer_id,SKU,amount,credit_card) VALUES(?,?,?,?);");
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(4, credit_card);
-			for(int product_id:productsMap.keySet()) {
-				pstmt.setInt(2,product_id);
-				pstmt.setInt(3, productsMap.get(product_id).getNum());
+			for(String SKU:productsMap.keySet()) {
+				pstmtQuery.setString(1, SKU);
+				rs=pstmtQuery.executeQuery();
+				if(rs.next()==false) {
+					throw new Exception("Product not available");
+				}
+				pstmt.setString(2,SKU);
+				pstmt.setInt(3, productsMap.get(SKU).getNum());
 				pstmt.executeUpdate();
 			}
 			con.commit();
 			pstmt.close();
-		} catch(SQLException e) {
+		} catch (Exception e) {
 			con.rollback();
 			throw e;
-		}	finally {
+		} finally {
 			con.setAutoCommit(true);
-			dbUtil.close(con, pstmt, null);
+			dbUtil.close(null, pstmtQuery, null);
+			dbUtil.close(con, pstmt, rs);
 		}
 	}
 

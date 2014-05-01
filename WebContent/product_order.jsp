@@ -37,11 +37,11 @@
 
 	<!--get products that are already ordered  -->
 	<%
-     HashMap<Integer,products> productsMap;
+     HashMap<String,products> productsMap;
      if (session.getAttribute("product_order")==null) {
-           productsMap=new HashMap<Integer,products>();
+           productsMap=new HashMap<String,products>();
      } else {
-           productsMap=(HashMap<Integer,products>)session.getAttribute("product_order");
+           productsMap=(HashMap<String,products>)session.getAttribute("product_order");
      }
      %>
 
@@ -51,24 +51,18 @@
     String action=request.getParameter("action");
     if(action!=null&&action.equals("add_order")) {
     	newProduct=new products(); 
-    	newProduct.setId(Integer.parseInt(request.getParameter("product_id")));
     	newProduct.setName(request.getParameter("name"));
     	newProduct.setSKU(request.getParameter("SKU"));
-    	newProduct.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
     	newProduct.setCategory(request.getParameter("category"));
+    	newProduct.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
     	newProduct.setPrice(Integer.parseInt(request.getParameter("price")));
     } else if(action!=null&&action.equals("confirm_add")) {
     	products added=null;
-    	if(productsMap.containsKey(Integer.parseInt(request.getParameter("product_id")))) {
-    		added=productsMap.get(Integer.parseInt(request.getParameter("product_id")));
+    	if(productsMap.containsKey(request.getParameter("SKU"))) {
+    		added=productsMap.get(request.getParameter("SKU"));
     	} else {
     		 added=new products(); 
-    		 added.setId(Integer.parseInt(request.getParameter("product_id")));
-	         added.setName(request.getParameter("name"));
 	         added.setSKU(request.getParameter("SKU"));
-	         added.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
-	         added.setCategory(request.getParameter("category"));
-	         added.setPrice(Integer.parseInt(request.getParameter("price")));
     	}
     	int requestAmount=0;
     	try {
@@ -78,7 +72,7 @@
     	}
     	if(requestAmount>0){
     		added.setNum(requestAmount+added.getNum());
-            productsMap.put(Integer.parseInt(request.getParameter("product_id")), added);
+            productsMap.put(request.getParameter("SKU"), added);
         }
         session.setAttribute("product_order", productsMap);
         response.sendRedirect("product_browsing.jsp");
@@ -95,7 +89,18 @@
 			<th>Number</th>
 		</tr>
 		<%
-     for(products product:productsMap.values()) {
+     for(String SKU:productsMap.keySet()) {
+    	products product=null;
+    	try {
+    		product=products.productFromSKU(SKU);
+    		product.setNum(productsMap.get(SKU).getNum());
+    	} catch(Exception e) {
+     %>
+    	    <tr>not valid product</tr>
+     <%
+    	     continue;
+    	}
+    	   
      %>
 		<tr>
 
@@ -119,15 +124,7 @@
 			<form action="product_order.jsp" method="POST">
 			<td><input type="text" size="4" name="number" value="1" /></td>
 			<input type="hidden" name="action" value="confirm_add" />
-			<input type="hidden" name="product_id"
-				value="<%=newProduct.getId()%>" />
-			<input type="hidden" name="name" value="<%=newProduct.getName() %>" />
 			<input type="hidden" name="SKU" value="<%=newProduct.getSKU() %>" />
-			<input type="hidden" name="category"
-				value="<%=newProduct.getCategory() %>" />
-			<input type="hidden" name="category_id"
-				value="<%=newProduct.getCategory_id() %>" />
-			<input type="hidden" name="price" value="<%=newProduct.getPrice() %>" />
 			<td><div class="button"><input type="submit" /></div></td>
 			</form>
         </tr>

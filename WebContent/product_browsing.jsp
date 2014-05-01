@@ -96,9 +96,11 @@ for (products product:productList) {
 			<td>
 				<form action="product_order.jsp" method="POST">
 					<input name="action" value="add_order" type="hidden" /> <input
-						name="product_id" value="<%=product.getId()%>" type="hidden" /> <input
 						name="name" value="<%=product.getName() %>" type="hidden" /> <input
-						name="SKU" value="<%=product.getSKU() %>" type="hidden" /> <input
+						name="SKU" value="<%=product.getSKU() %>" type="hidden" /> 
+						<input name="category" value="<%=categoryMap.get(product.getCategory_id()).getName() %>"
+                        type="hidden" />
+						<input
 						name="category_id" value="<%=product.getCategory_id()%>"
 						type="hidden" /> <input name="category"
 						value="<%=categoryMap.get(product.getCategory_id()).getName()%>"
