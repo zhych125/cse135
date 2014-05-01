@@ -63,11 +63,13 @@
     	   product=products.productFromSKU(SKU);
     	   product.setNum(productsMap.get(SKU).getNum());
     	 } catch(Exception e) {
+    		 productsMap.remove(SKU);
      %>
-        <tr>not valid product</tr>
+         <tr><td/><td/><td/><td>not valid product</td><td/></tr>
      <%
              continue;
     	 }
+
      %>
         <tr>
 
@@ -81,7 +83,9 @@
             <td>$<%=products.intToPrice(product.getPrice()*product.getNum()) %></td>
         </tr>
         <%
+        
      }
+     session.setAttribute("product_order", productsMap);
         %>
          <tr>
             <td>    </td>

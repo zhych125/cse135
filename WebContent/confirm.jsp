@@ -55,8 +55,8 @@ try{
                 product.setNum(productsMap.get(SKU).getNum());
             } catch(Exception e) {
          %>
-                <tr>not valid product</tr>
-     <%
+                <tr><td/><td/><td/><td>product not exists</td><td/></tr>
+         <%
                  continue;
             }
      %>

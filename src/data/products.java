@@ -228,6 +228,7 @@ public class products {
 			con.commit();	
 		} catch(Exception e) {
 			con.rollback();
+			newProduct=null;
 			throw e;
 		} finally {
 			con.setAutoCommit(true);
@@ -261,7 +262,7 @@ public class products {
 				pstmtQuery.setString(1, SKU);
 				rs=pstmtQuery.executeQuery();
 				if(rs.next()==false) {
-					throw new Exception("Product not available");
+					continue;
 				}
 				pstmt.setString(2,SKU);
 				pstmt.setInt(3, productsMap.get(SKU).getNum());

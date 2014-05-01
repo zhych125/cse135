@@ -95,8 +95,9 @@
     		product=products.productFromSKU(SKU);
     		product.setNum(productsMap.get(SKU).getNum());
     	} catch(Exception e) {
+    		productsMap.remove(SKU);
      %>
-    	    <tr>not valid product</tr>
+    	    <tr><td/><td/><td/><td>not valid product</td><td/></tr>
      <%
     	     continue;
     	}
@@ -113,6 +114,7 @@
 		</tr>
 		<%
      }
+     session.setAttribute("product_order", productsMap);
      if (newProduct!=null) {
 %>
 
