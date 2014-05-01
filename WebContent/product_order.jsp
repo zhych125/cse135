@@ -1,4 +1,4 @@
-<%@ page import="data.*,java.util.HashMap"%>
+<%@ page import="data.*,java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -37,12 +37,12 @@
 
 	<!--get products that are already ordered  -->
 	<%
-     HashMap<String,products> productsMap;
-     if (session.getAttribute("product_order")==null) {
-           productsMap=new HashMap<String,products>();
-     } else {
-           productsMap=(HashMap<String,products>)session.getAttribute("product_order");
-     }
+	ArrayList<products> productsList=new ArrayList<products>();
+    try{
+     productsList=cart.getCart(user);
+    } catch(Exception e) {
+        
+    }
      %>
 
 	<!--control code-->
@@ -57,24 +57,18 @@
     	newProduct.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
     	newProduct.setPrice(Integer.parseInt(request.getParameter("price")));
     } else if(action!=null&&action.equals("confirm_add")) {
-    	products added=null;
-    	if(productsMap.containsKey(request.getParameter("SKU"))) {
-    		added=productsMap.get(request.getParameter("SKU"));
-    	} else {
-    		 added=new products(); 
+    	products added=new products(); 
 	         added.setSKU(request.getParameter("SKU"));
-    	}
     	int requestAmount=0;
     	try {
     		requestAmount=Integer.parseInt(request.getParameter("number"));
+    		if(requestAmount>0){
+                added.setNum(requestAmount);
+                cart.addToCart(added, productsList, user);
+            }
     	} catch (Exception e){
-    		out.println("Not valid amount");
+    		out.println("Adding failed");
     	}
-    	if(requestAmount>0){
-    		added.setNum(requestAmount+added.getNum());
-            productsMap.put(request.getParameter("SKU"), added);
-        }
-        session.setAttribute("product_order", productsMap);
         response.sendRedirect("product_browsing.jsp");
     }
 %>
@@ -89,18 +83,7 @@
 			<th>Number</th>
 		</tr>
 		<%
-     for(String SKU:productsMap.keySet()) {
-    	products product=null;
-    	try {
-    		product=products.productFromSKU(SKU);
-    		product.setNum(productsMap.get(SKU).getNum());
-    	} catch(Exception e) {
-    		productsMap.remove(SKU);
-     %>
-    	    <tr><td/><td/><td/><td>not valid product</td><td/></tr>
-     <%
-    	     continue;
-    	}
+     for(products product:productsList) {
     	   
      %>
 		<tr>
@@ -114,7 +97,6 @@
 		</tr>
 		<%
      }
-     session.setAttribute("product_order", productsMap);
      if (newProduct!=null) {
 %>
 

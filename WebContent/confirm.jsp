@@ -1,4 +1,4 @@
-<%@ page import="java.util.HashMap,data.*" %>
+<%@ page import="java.util.ArrayList,data.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -21,13 +21,15 @@
     %>
 
 <%
-HashMap<String,products> productsMap=(HashMap<String,products>)session.getAttribute("product_order");
-if (productsMap==null) {
-	productsMap=new HashMap<String,products>();
-}
-String credit_card=request.getParameter("credit_card");
-try{
-	products.purchase(productsMap, user,credit_card);
+try {
+    if(session.getAttribute("orders")==null) {
+    	   throw new Exception("No products in shopping cart");
+     }
+    ArrayList<products> productsList=(ArrayList<products>)session.getAttribute("orders");  
+    session.removeAttribute("orders");
+    String credit_card=request.getParameter("credit_card");
+	cart.purchase(user,productsList,credit_card);
+    cart.emptyCart(user);
 	
 %>
 <head>
@@ -48,17 +50,7 @@ try{
         </tr>
         <%
         int totalPrice=0;
-        for(String SKU:productsMap.keySet()) {
-            products product=null;
-            try {
-                product=products.productFromSKU(SKU);
-                product.setNum(productsMap.get(SKU).getNum());
-            } catch(Exception e) {
-         %>
-                <tr><td/><td/><td/><td>product not exists</td><td/></tr>
-         <%
-                 continue;
-            }
+        for(products product:productsList) {
      %>
         <tr>
 
@@ -86,7 +78,7 @@ try{
 <a href="product_browsing.jsp">Continue Shopping!</a>
 </body>
 <%
-    session.removeAttribute("product_order");
+
 } catch(Exception e) {
 %>
 <head>

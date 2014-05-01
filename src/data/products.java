@@ -3,11 +3,8 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import data.users;
 import dbUtil.dbUtil;
 
 public class products {
@@ -197,87 +194,6 @@ public class products {
 			return 0;
 		}
 		return iprice;
-	}
-	public static products productFromSKU(String SKU) throws Exception{
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2=null;
-		ResultSet rs=null;
-		ResultSet rs2=null;
-		products newProduct=null;
-		try {
-			con=dbUtil.connect();
-			con.setAutoCommit(false);
-			pstmt=con.prepareStatement("SELECT * FROM products WHERE SKU=?");
-			pstmt2=con.prepareStatement("SELECT name FROM categories WHERE id=?");
-			pstmt.setString(1, SKU);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				newProduct=new products();
-				newProduct.setSKU(SKU);
-				newProduct.setName(rs.getString(2));
-				newProduct.setCategory_id(rs.getInt(3));
-				newProduct.setPrice(rs.getInt(4));
-				pstmt2.setInt(1, rs.getInt(3));
-				rs2=pstmt2.executeQuery();
-				if(rs2.next()) {
-					newProduct.setCategory(rs2.getString(1));
-				}
-			} else {
-				throw new Exception();
-			}
-			con.commit();	
-		} catch(Exception e) {
-			con.rollback();
-			newProduct=null;
-			throw e;
-		} finally {
-			con.setAutoCommit(true);
-			dbUtil.close(null, pstmt2, rs2);
-			dbUtil.close(con, pstmt, rs);
-		}
-		return newProduct;
-	}
-	public static void purchase(HashMap<String,products> productsMap,users user,String credit_card) throws Exception{
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmtQuery=null;
-		ResultSet rs=null;
-		if (user==null||!user.getRole().equals("customer")) {
-			throw new Exception("Not a valid customer");
-		}
-		if(productsMap==null||productsMap.isEmpty()) {
-			throw new Exception("Nothing to purchase");
-		}
-		String regex = "[0-9]+";
-		if(credit_card==null||credit_card.isEmpty()||!credit_card.matches(regex)||credit_card.length()<16||credit_card.length()>16) {
-			throw new Exception("Invalid credit card number");
-		}
-		try {
-			con = dbUtil.connect();
-			con.setAutoCommit(false);
-			pstmtQuery=con.prepareStatement("SELECT * FROM products WHERE SKU=?");
-			pstmt = con.prepareStatement("INSERT INTO purchase(customer_id,SKU,amount,credit_card) VALUES(?,?,?,?);");
-			pstmt.setInt(1, user.getId());
-			pstmt.setString(4, credit_card);
-			for(String SKU:productsMap.keySet()) {
-				pstmtQuery.setString(1, SKU);
-				rs=pstmtQuery.executeQuery();
-				if(rs.next()==false) {
-					continue;
-				}
-				pstmt.setString(2,SKU);
-				pstmt.setInt(3, productsMap.get(SKU).getNum());
-				pstmt.executeUpdate();
-			}
-			con.commit();
-			pstmt.close();
-		} catch (Exception e) {
-			con.rollback();
-			throw e;
-		} finally {
-			con.setAutoCommit(true);
-			dbUtil.close(null, pstmtQuery, null);
-			dbUtil.close(con, pstmt, rs);
-		}
 	}
 
 }

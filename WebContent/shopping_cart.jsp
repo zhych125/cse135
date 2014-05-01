@@ -1,4 +1,4 @@
-<%@ page import="data.*,java.util.HashMap" %>
+<%@ page import="data.*,java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -37,12 +37,13 @@
 
     <!--get products that are already ordered  -->
     <%
-     HashMap<String,products> productsMap;
-     if (session.getAttribute("product_order")==null) {
-           productsMap=new HashMap<String,products>();
-     } else {
-           productsMap=(HashMap<String,products>)session.getAttribute("product_order");
-     }
+    ArrayList<products> productsList=new ArrayList<products>();
+    try{
+     productsList=cart.getCart(user);
+     session.setAttribute("orders", productsList);
+    } catch(Exception e) {
+    	
+    }
      %>
      
         <!--presentation  -->
@@ -57,18 +58,7 @@
         </tr>
         <%
         int totalPrice=0;
-     for(String SKU:productsMap.keySet()) {
-    	 products product=null;
-    	 try {
-    	   product=products.productFromSKU(SKU);
-    	   product.setNum(productsMap.get(SKU).getNum());
-    	 } catch(Exception e) {
-    		 productsMap.remove(SKU);
-     %>
-         <tr><td/><td/><td/><td>not valid product</td><td/></tr>
-     <%
-             continue;
-    	 }
+     for(products product:productsList) {
 
      %>
         <tr>
@@ -85,7 +75,6 @@
         <%
         
      }
-     session.setAttribute("product_order", productsMap);
         %>
          <tr>
             <td>    </td>
