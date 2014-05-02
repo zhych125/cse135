@@ -1,0 +1,6 @@
+Anonymous products browsing allowed
+Updates on products don’t happen very often
+SKU is universally unique
+Any purchase would require a registered customer in session
+Any category or product modification would require a registered owner
+No product is free (price>0)
