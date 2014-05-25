@@ -21,15 +21,9 @@
     %>
 
 <%
-try {
-    if(session.getAttribute("orders")==null) {
-    	   throw new Exception("No products in shopping cart");
-     }
-    ArrayList<products> productsList=(ArrayList<products>)session.getAttribute("orders");  
-    session.removeAttribute("orders");
+try {  
     String credit_card=request.getParameter("credit_card");
-	cart.purchase(user,productsList,credit_card);
-    cart.emptyCart(user);
+	ArrayList<carts> purchased = carts.purchase(user,credit_card);
 	
 %>
 <head>
@@ -50,18 +44,18 @@ try {
         </tr>
         <%
         int totalPrice=0;
-        for(products product:productsList) {
+        for(carts item:purchased) {
      %>
         <tr>
 
-            <td><%=product.getName() %></td>
-            <td><%=product.getSKU() %></td>
-            <td><%=product.getCategory()%></td>
-            <td>$<%=products.intToPrice(product.getPrice()) %>
+            <td><%=item.getProduct().getName() %></td>
+            <td><%=item.getProduct().getSKU() %></td>
+            <td><%=item.getProduct().getCategory()%></td>
+            <td>$<%=products.intToPrice(item.getProduct().getPrice()) %>
             </td>
-            <td><%=product.getNum() %></td>
-            <%totalPrice+=product.getNum()*product.getPrice(); %>
-            <td>$<%=products.intToPrice(product.getPrice()*product.getNum()) %></td>
+            <td><%=item.getQuantity() %></td>
+            <%totalPrice+=item.getQuantity()*item.getProduct().getPrice(); %>
+            <td>$<%=products.intToPrice(item.getProduct().getPrice()*item.getQuantity()) %></td>
         </tr>
         <%
      }

@@ -34,9 +34,9 @@
 
 	<!--get categories  -->
 	<% 
-  int id=0;
-  if(request.getParameter("id")!=null) {
-	id  =Integer.parseInt(request.getParameter("id"));
+  int cid=0;
+  if(request.getParameter("cid")!=null) {
+	cid  =Integer.parseInt(request.getParameter("cid"));
   }
   ArrayList<categories> categoryList=categories.listAll();
   HashMap<Integer,categories> categoryMap=new HashMap<Integer,categories>();
@@ -52,7 +52,11 @@
 	</jsp:include>
 
 	<!--request parameter parsing  -->
-	<%	
+	<%
+int pid=0;
+if(request.getParameter("pid")!=null) {
+	pid=Integer.parseInt(request.getParameter("pid"));
+}
 String regex = "[0-9]+";	
 String SKU=null;
 if(request.getParameter("SKU")!=null
@@ -60,12 +64,7 @@ if(request.getParameter("SKU")!=null
 &&request.getParameter("SKU").matches(regex)) {
     SKU=request.getParameter("SKU");
 }
-String oldSKU=null;
-if(request.getParameter("oldSKU")!=null
-&&!request.getParameter("oldSKU").equals("")
-&&request.getParameter("oldSKU").matches(regex)) {
-    oldSKU=request.getParameter("oldSKU");
-}
+
 String name=null;	
 if (request.getParameter("name")!=null&&!request.getParameter("name").equals("")) {
     name=request.getParameter("name");
@@ -86,7 +85,7 @@ if(action!=null&&action.equals("insert")) {
 	products product=new products();
 	product.setName(name);
 	product.setSKU(SKU);
-    product.setCategory_id(category_id);
+    product.setCid(category_id);
 	product.setPrice(price);
 	try{
 		   products.addProduct(product);
@@ -96,20 +95,21 @@ if(action!=null&&action.equals("insert")) {
 	}
 } else if (action!=null&&action.equals("update")) {
 	products product=new products();
+	product.setId(pid);
     product.setName(name);
 	product.setSKU(SKU);
-    product.setCategory_id(category_id);
+    product.setCid(category_id);
     product.setPrice(price);
 
     try{
-        products.updateProduct(product,oldSKU);
+        products.updateProduct(product);
         out.println("product " +product.getName()+" has been successfully updated");
     } catch(Exception e) {
     	out.println("Failure to update product");
     }
 } else if(action!=null&&action.equals("delete")) {
 	try{
-		products.deleteProduct(SKU);
+		products.deleteProduct(pid);
 		out.println("product " +name+" has been successfully deleted");
 	} catch(Exception e) {
 		out.println("Failure to delete product");
@@ -123,9 +123,9 @@ if (request.getParameter("search")!=null) {
 }
 ArrayList<products> productList=null;
 if (search==null) {
-    productList=products.listProducts(id);
+    productList=products.listProducts(cid);
 } else {
-    productList=products.searchProducts(id, search);
+    productList=products.searchProducts(cid, search);
 }
 %>
 
@@ -140,12 +140,12 @@ if (search==null) {
 		<% 
 
 for (products product:productList) {
-        if(categoryMap.containsKey(product.getCategory_id())) {
+        if(categoryMap.containsKey(product.getCid())) {
 %>
 		<tr id="product">
-			<form action="products.jsp?id=<%=id %>" method="POST">
+			<form action="products.jsp?id=<%=cid %>" method="POST">
 				<input name="action" type="hidden" value="update" /> 
-				<input name="oldSKU" type="hidden" value="<%=product.getSKU() %>" />
+				<input name="pid" type="hidden" value="<%=product.getId() %>" />
 				<td><input name="name" type="text"
 					value="<%=product.getName() %>" /></td>
 				<td><input name="SKU" type="text"
@@ -153,7 +153,7 @@ for (products product:productList) {
 				<td><select name="category">
 						<% for (categories category:categoryList) { %>
 						<option value="<%=category.getId()%>"
-							<%if(product.getCategory_id()==category.getId()) { %>
+							<%if(product.getCid()==category.getId()) { %>
 							selected="selected" <%} %>>
 							<%=category.getName() %></option>
 						<% } %>
@@ -163,9 +163,9 @@ for (products product:productList) {
 					value="<%=products.intToPrice(product.getPrice()) %>" /></td>
 				<td><div class="button"><input type="submit" value="Update" /></div></td>
 			</form>
-			<form action="products.jsp?id=<%=id %>" method="POST">
+			<form action="products.jsp?id=<%=cid %>" method="POST">
 				<input name="action" type="hidden" value="delete" />
-				 <input name="SKU" type="hidden" value="<%=product.getSKU() %>" />
+				 <input name="pid" type="hidden" value="<%=product.getId() %>" />
 				 <input name="name" type="hidden" value="<%=product.getName() %>" />
 				<td><div class="button"><input type="submit" value="Delete" /></div></td>
 			</form>
@@ -175,14 +175,14 @@ for (products product:productList) {
 }
 %>
 		<tr id="product">
-			<form action="products.jsp?id=<%=id %>" method="POST">
+			<form action="products.jsp?id=<%=cid %>" method="POST">
 				<input name="action" type="hidden" value="insert" />
 				<td><input name="name" type="text" /></td>
 				<td><input name="SKU" type="text" /></td>
 				<td><select name="category">
 						<% for (categories category:categoryList) { %>
 						<option value="<%=category.getId()%>"
-							<% if (id==category.getId()) {%> selected="selected" <%} %>>
+							<% if (cid==category.getId()) {%> selected="selected" <%} %>>
 							<%=category.getName() %></option>
 						<% } %>
 				</select></td>

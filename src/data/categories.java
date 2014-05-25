@@ -75,7 +75,7 @@ public class categories {
 			con = dbUtil.connect();
 			con.setAutoCommit(false);
 			pstmt = con
-					.prepareStatement("SELECT * FROM products WHERE category_id=?;");
+					.prepareStatement("SELECT * FROM products WHERE cid=?;");
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {

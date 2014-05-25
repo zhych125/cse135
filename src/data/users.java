@@ -59,12 +59,13 @@ public class users {
 		PreparedStatement pstmt = null;
 		try {
 			con = dbUtil.connect();
-			String insertString = "INSERT INTO users(name,age,state,role) Values(?,?,?,?);";
+			String insertString = "INSERT INTO users(name,role,age,state) Values(?,?,?,?);";
 			pstmt = con.prepareStatement(insertString);
 			pstmt.setString(1, user.getName());
-			pstmt.setInt(2, user.getAge());
-			pstmt.setString(3, user.getState());
-			pstmt.setString(4, user.getRole());
+			pstmt.setString(2, user.getRole());
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getState());
+			
 			pstmt.executeUpdate();
 			pstmt.close();
 		} finally {
@@ -86,9 +87,10 @@ public class users {
 				result = new users();
 				result.setId(rs.getInt(1));
 				result.setName(rs.getString(2));
-				result.setAge(rs.getInt(3));
-				result.setState(rs.getString(4));
-				result.setRole(rs.getString(5));
+				result.setRole(rs.getString(3));
+				result.setAge(rs.getInt(4));
+				result.setState(rs.getString(5));
+				
 			}
 			rs.close();
 			pstmt.close();

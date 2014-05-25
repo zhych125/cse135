@@ -16,9 +16,9 @@
     %>
 	<li class="sidebarli">
 		<% if(request.getParameter("page").equals("products")) {%>
-		<a href="products.jsp?id=<%=category.getId() %>"><%=category.getName() %></a>
+		<a href="products.jsp?cid=<%=category.getId() %>"><%=category.getName() %></a>
 		<% }else { %>
-		<a href="product_browsing.jsp?id=<%=category.getId() %>" ><%=category.getName() %></a>
+		<a href="product_browsing.jsp?cid=<%=category.getId() %>" ><%=category.getName() %></a>
 		<%} %>
 	</li>
 

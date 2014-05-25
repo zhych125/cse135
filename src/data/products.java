@@ -10,27 +10,29 @@ import dbUtil.dbUtil;
 public class products {
 
 	private static Connection con = null;
+	private int id;
+	private int cid;
 	private String name;
 	private String SKU;
-	private int category_id;
-	private String category;
 	private int price;
-	private int num;
-
-	public String getSKU() {
-		return SKU;
-	}
-
-	public void setSKU(String SKU) {
-		this.SKU = SKU;
-	}
+	private String category;
 	
-	public int getNum() {
-		return num;
-	}
 	
-	public void setNum(int num) {
-		this.num=num;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCid() {
+		return cid;
+	}
+
+	public void setCid(int cid) {
+		this.cid = cid;
 	}
 
 	public String getName() {
@@ -41,20 +43,12 @@ public class products {
 		this.name = name;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getSKU() {
+		return SKU;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public int getCategory_id() {
-		return category_id;
-	}
-
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setSKU(String SKU) {
+		this.SKU = SKU;
 	}
 
 	public int getPrice() {
@@ -65,15 +59,23 @@ public class products {
 		this.price = price;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public static void addProduct(products product) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			con = dbUtil.connect();
 			pstmt = con
-					.prepareStatement("INSERT INTO products(name,SKU,category_id,price) VALUES(?,?,?,?);");
-			pstmt.setString(1, product.getName());
-			pstmt.setString(2, product.getSKU());
-			pstmt.setInt(3, product.getCategory_id());
+					.prepareStatement("INSERT INTO products(cid,name,SKU,price) VALUES(?,?,?,?);");
+			pstmt.setInt(1, product.getCid());
+			pstmt.setString(2, product.getName());
+			pstmt.setString(3, product.getSKU());
 			pstmt.setInt(4, product.getPrice());
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -82,20 +84,20 @@ public class products {
 		}
 	}
 
-	public static void updateProduct(products product,String SKU) throws Exception {
+	public static void updateProduct(products product) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
-			if(SKU==null) {
+			if(product.getId()==0) {
 				throw new Exception();
 			}
 			con = dbUtil.connect();
 			pstmt = con
-					.prepareStatement("UPDATE products SET SKU=?,name=?,category_id=?,price=? WHERE SKU=?;");
-			pstmt.setString(1, product.getSKU());
+					.prepareStatement("UPDATE products SET cid=?,name=?,SKU=?,price=? WHERE id=?;");
+			pstmt.setInt(1, product.getCid());
 			pstmt.setString(2, product.getName());
-			pstmt.setInt(3, product.getCategory_id());
+			pstmt.setString(3, product.getSKU());
 			pstmt.setInt(4, product.getPrice());
-			pstmt.setString(5, SKU);
+			pstmt.setInt(5, product.getId());
 			pstmt.executeUpdate();
 			pstmt.close();
 		} finally {
@@ -103,12 +105,12 @@ public class products {
 		}
 	}
 
-	public static void deleteProduct(String SKU) throws Exception {
+	public static void deleteProduct(int id) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			con = dbUtil.connect();
-			pstmt = con.prepareStatement("DELETE FROM products WHERE SKU=?");
-			pstmt.setString(1, SKU);
+			pstmt = con.prepareStatement("DELETE FROM products WHERE id=?");
+			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 			pstmt.close();
 		} finally {
@@ -116,26 +118,27 @@ public class products {
 		}
 	}
 
-	public static ArrayList<products> listProducts(int category_id)
+	public static ArrayList<products> listProducts(int cid)
 			throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<products> list = new ArrayList<products>();;
 		try {
 			con = dbUtil.connect();
-			if (category_id != 0) {
-				pstmt = con.prepareStatement("SELECT * FROM products WHERE category_id=?;");
-				pstmt.setInt(1, category_id);
+			if (cid != 0) {
+				pstmt = con.prepareStatement("SELECT * FROM products WHERE cid=?;");
+				pstmt.setInt(1, cid);
 			} else {
 				pstmt = con.prepareStatement("SELECT * FROM products;");
 			}
 			rs = pstmt.executeQuery(); 
 			while (rs.next()) {
 				products product = new products();
-				product.setSKU(rs.getString(1));
-				product.setName(rs.getString(2));
-				product.setCategory_id(rs.getInt(3));
-				product.setPrice(rs.getInt(4));
+				product.setId(rs.getInt(1));
+				product.setCid(rs.getInt(2));
+				product.setName(rs.getString(3));
+				product.setSKU(rs.getString(4));				
+				product.setPrice(rs.getInt(5));
 				list.add(product);
 			}
 			rs.close();
@@ -146,17 +149,17 @@ public class products {
 		return list;
 	}
 
-	public static ArrayList<products> searchProducts(int category_id,
+	public static ArrayList<products> searchProducts(int cid,
 			String search) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<products> list = new ArrayList<products>();;
 		try {
 			con = dbUtil.connect();
-			if (category_id != 0) {
+			if (cid != 0) {
 				pstmt = con
 						.prepareStatement("SELECT * FROM products WHERE category_id=? AND LOWER(name) LIKE ?;");
-				pstmt.setInt(1, category_id);
+				pstmt.setInt(1, cid);
 				pstmt.setString(2, ("%" + search + "%").toLowerCase());
 			} else {
 				pstmt = con
@@ -166,11 +169,12 @@ public class products {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				products product = new products();;
-				product.setSKU(rs.getString(1));
-				product.setName(rs.getString(2));
-				product.setCategory_id(rs.getInt(3));
-				product.setPrice(rs.getInt(4));
+				products product = new products();
+				product.setId(rs.getInt(1));
+				product.setCid(rs.getInt(2));
+				product.setName(rs.getString(3));
+				product.setSKU(rs.getString(4));
+				product.setPrice(rs.getInt(5));
 				list.add(product);
 			}
 			rs.close();

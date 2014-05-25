@@ -31,9 +31,9 @@
     <p class="error" ><a href="welcome.jsp">log in</a></p>
     <%	
     }
-  int id=0;
-  if(request.getParameter("id")!=null) {
-    id  =Integer.parseInt(request.getParameter("id"));
+  int cid=0;
+  if(request.getParameter("cid")!=null) {
+    cid  =Integer.parseInt(request.getParameter("cid"));
   }
   ArrayList<categories> categoryList=categories.listAll();
   HashMap<Integer,categories> categoryMap=new HashMap<Integer,categories>();
@@ -57,12 +57,12 @@ if (request.getParameter("search")!=null) {
 }
 ArrayList<products> productList=null;
 if (search==null) {
-    productList=products.listProducts(id);
+    productList=products.listProducts(cid);
 } else {
 	if(user!=null){
-		productList=products.searchProducts(id, search);
+		productList=products.searchProducts(cid, search);
 	} else {
-		productList=products.listProducts(id);
+		productList=products.listProducts(cid);
     %>
 	<p class="error">
 		Please login first <a href="welcome.jsp">login in</a>
@@ -83,30 +83,35 @@ if (search==null) {
 		<% 
 
 for (products product:productList) {
-    if(categoryMap.containsKey(product.getCategory_id())) {
+    if(categoryMap.containsKey(product.getCid())) {
 %>
 
 		<tr>
 
 			<td><%=product.getName() %></td>
 			<td><%=product.getSKU() %></td>
-			<td><%=categoryMap.get(product.getCategory_id()).getName() %></td>
+			<td><%=categoryMap.get(product.getCid()).getName() %></td>
 			<td>$<%=products.intToPrice(product.getPrice()) %>
 			</td>
 			<td>
 				<form action="product_order.jsp" method="POST">
-					<input name="action" value="add_order" type="hidden" /> <input
-						name="name" value="<%=product.getName() %>" type="hidden" /> <input
+					<input name="action" value="add_order" type="hidden" /> 
+					<input name = "pid" value=<%=product.getId() %> type="hidden"/>
+					<input
+						name="name" value="<%=product.getName() %>" type="hidden" />
+					<input
 						name="SKU" value="<%=product.getSKU() %>" type="hidden" /> 
-						<input name="category" value="<%=categoryMap.get(product.getCategory_id()).getName() %>"
+					<input name="category" value="<%=categoryMap.get(product.getCid()).getName() %>"
                         type="hidden" />
-						<input
-						name="category_id" value="<%=product.getCategory_id()%>"
-						type="hidden" /> <input name="category"
-						value="<%=categoryMap.get(product.getCategory_id()).getName()%>"
-						type="hidden" /> <input name="price"
+					<input
+						name="category_id" value="<%=product.getCid()%>"
+						type="hidden" /> 
+					<input name="category"
+						value="<%=categoryMap.get(product.getCid()).getName()%>"
+						type="hidden" /> 
+					<input name="price"
 						value="<%=product.getPrice() %>" type="hidden" />
-						 <input type="submit" value="Buy"/>
+					<input type="submit" value="Buy"/>
 				</form>
 			</td>
 

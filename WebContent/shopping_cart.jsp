@@ -37,10 +37,9 @@
 
     <!--get products that are already ordered  -->
     <%
-    ArrayList<products> productsList=new ArrayList<products>();
+    ArrayList<carts> cart=null;
     try{
-     productsList=cart.getCart(user);
-     session.setAttribute("orders", productsList);
+    cart = carts.listCart(user);
     } catch(Exception e) {
     	
     }
@@ -53,24 +52,24 @@
             <th>SKU</th>
             <th>Category</th>
             <th>Price</th>
-            <th>Amount</th>
+            <th>Quantity</th>
             <th>Total Price</th>
         </tr>
         <%
         int totalPrice=0;
-     for(products product:productsList) {
+     for(carts item:cart) {
 
      %>
         <tr>
 
-            <td><%=product.getName() %></td>
-            <td><%=product.getSKU() %></td>
-            <td><%=product.getCategory()%></td>
-            <td>$<%=products.intToPrice(product.getPrice()) %>
+            <td><%=item.getProduct().getName() %></td>
+            <td><%=item.getProduct().getSKU() %></td>
+            <td><%=item.getProduct().getCategory()%></td>
+            <td>$<%=products.intToPrice(item.getProduct().getPrice()) %>
             </td>
-            <td><%=product.getNum() %></td>
-            <%totalPrice+=product.getNum()*product.getPrice(); %>
-            <td>$<%=products.intToPrice(product.getPrice()*product.getNum()) %></td>
+            <td><%=item.getQuantity() %></td>
+            <%totalPrice+=item.getQuantity()*item.getProduct().getPrice(); %>
+            <td>$<%=products.intToPrice(item.getProduct().getPrice()*item.getQuantity()) %></td>
         </tr>
         <%
         

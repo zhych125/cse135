@@ -23,7 +23,6 @@ if (result!=null) {
 	session.setAttribute("user", result);
        if(result.getRole().equals("owner")) {
            response.sendRedirect("categories.jsp");
-    	   /*response.sendRedirect("home.jsp");*/
 
        } else {
        	response.sendRedirect("product_browsing.jsp"); 

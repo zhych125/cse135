@@ -37,9 +37,10 @@
 
 	<!--get products that are already ordered  -->
 	<%
-	ArrayList<products> productsList=new ArrayList<products>();
+	ArrayList<carts> cart = null;
+	
     try{
-     productsList=cart.getCart(user);
+    	cart = carts.listCart(user);
     } catch(Exception e) {
         
     }
@@ -51,20 +52,21 @@
     String action=request.getParameter("action");
     if(action!=null&&action.equals("add_order")) {
     	newProduct=new products(); 
+    	newProduct.setId(Integer.parseInt(request.getParameter("pid")));
     	newProduct.setName(request.getParameter("name"));
     	newProduct.setSKU(request.getParameter("SKU"));
     	newProduct.setCategory(request.getParameter("category"));
-    	newProduct.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
+    	newProduct.setCid(Integer.parseInt(request.getParameter("category_id")));
     	newProduct.setPrice(Integer.parseInt(request.getParameter("price")));
     } else if(action!=null&&action.equals("confirm_add")) {
     	products added=new products(); 
-	         added.setSKU(request.getParameter("SKU"));
-    	int requestAmount=0;
+	    added.setId(Integer.parseInt(request.getParameter("pid")));
+	    added.setPrice(Integer.parseInt(request.getParameter("price")));
+    	int requestQuantity=0;
     	try {
-    		requestAmount=Integer.parseInt(request.getParameter("number"));
-    		if(requestAmount>0){
-                added.setNum(requestAmount);
-                cart.addToCart(added, productsList, user);
+    		requestQuantity=Integer.parseInt(request.getParameter("quantity"));
+    		if(requestQuantity>0){
+                carts.addToCart(user, added, requestQuantity);
             }
     	} catch (Exception e){
     		out.println("Adding failed");
@@ -83,17 +85,17 @@
 			<th>Number</th>
 		</tr>
 		<%
-     for(products product:productsList) {
+     for(carts item:cart) {
     	   
      %>
 		<tr>
 
-			<td><%=product.getName() %></td>
-			<td><%=product.getSKU() %></td>
-			<td><%=product.getCategory()%></td>
-			<td>$<%=products.intToPrice(product.getPrice()) %>
+			<td><%=item.getProduct().getName() %></td>
+			<td><%=item.getProduct().getSKU() %></td>
+			<td><%=item.getProduct().getCategory()%></td>
+			<td>$<%=products.intToPrice(item.getProduct().getPrice()) %>
 			</td>
-			<td><%=product.getNum() %></td>
+			<td><%=item.getQuantity() %></td>
 		</tr>
 		<%
      }
@@ -106,9 +108,10 @@
 			<td><%=newProduct.getCategory()%></td>
 			<td>$<%=products.intToPrice(newProduct.getPrice()) %></td>
 			<form action="product_order.jsp" method="POST">
-			<td><input type="text" size="4" name="number" value="1" /></td>
+			<td><input type="text" size="4" name="quantity" value="1" /></td>
 			<input type="hidden" name="action" value="confirm_add" />
-			<input type="hidden" name="SKU" value="<%=newProduct.getSKU() %>" />
+			<input type="hidden" name="pid" value="<%=newProduct.getId() %>" />
+			<input type="hidden" name="price" value="<%=newProduct.getPrice() %>"/>
 			<td><div class="button"><input type="submit" /></div></td>
 			</form>
         </tr>
