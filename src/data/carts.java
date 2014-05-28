@@ -170,9 +170,8 @@ public class carts {
 	private static void buyItem(users user,carts item,String credit_card) throws Exception{
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = con.prepareStatement("INSERT INTO sales(uid,pid,quantity,price,credit_card,timeStamp) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP);");
+			pstmt = con.prepareStatement("INSERT INTO sales(uid,pid,quantity,price) VALUES(?,?,?,?);");
 			pstmt.setInt(1, user.getId());
-			pstmt.setString(5, credit_card);
 			products product = item.getProduct();
 			pstmt.setInt(2,product.getId());
 			pstmt.setInt(3, item.getQuantity());

@@ -4,8 +4,68 @@ DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS carts CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
+DROP TABLE IF EXISTS states CASCADE;
 
 --Create tables
+
+CREATE TABLE states (
+    id SERIAL PRIMARY KEY,
+    state TEXT NOT NULL UNIQUE
+);
+
+INSERT INTO states(state) VALUES('Alabama');
+INSERT INTO states(state) VALUES('Alaska');
+INSERT INTO states(state) VALUES('Arizona');
+INSERT INTO states(state) VALUES('Arkansas');
+INSERT INTO states(state) VALUES('California');
+INSERT INTO states(state) VALUES('Colorado');
+INSERT INTO states(state) VALUES('Connecticut');
+INSERT INTO states(state) VALUES('Delaware');
+INSERT INTO states(state) VALUES('Florida');
+INSERT INTO states(state) VALUES('Georgia');
+INSERT INTO states(state) VALUES('Hawaii');
+INSERT INTO states(state) VALUES('Idaho');
+INSERT INTO states(state) VALUES('Illinois');
+INSERT INTO states(state) VALUES('Indiana');
+INSERT INTO states(state) VALUES('Iowa');
+INSERT INTO states(state) VALUES('Kansas');
+INSERT INTO states(state) VALUES('Kentucky');
+INSERT INTO states(state) VALUES('Louisiana');
+INSERT INTO states(state) VALUES('Maine');
+INSERT INTO states(state) VALUES('Maryland');
+INSERT INTO states(state) VALUES('Massachusetts');
+INSERT INTO states(state) VALUES('Michigan');
+INSERT INTO states(state) VALUES('Minnesota');
+INSERT INTO states(state) VALUES('Mississippi');
+INSERT INTO states(state) VALUES('Missouri');
+INSERT INTO states(state) VALUES('Montana');
+INSERT INTO states(state) VALUES('Nebraska');
+INSERT INTO states(state) VALUES('Nevada');
+INSERT INTO states(state) VALUES('New Hampshire');
+INSERT INTO states(state) VALUES('New Jersey');
+INSERT INTO states(state) VALUES('New Mexico');
+INSERT INTO states(state) VALUES('New York');
+INSERT INTO states(state) VALUES('North Carolina');
+INSERT INTO states(state) VALUES('North Dakota');
+INSERT INTO states(state) VALUES('Ohio');
+INSERT INTO states(state) VALUES('Oklahoma');
+INSERT INTO states(state) VALUES('Oregon');
+INSERT INTO states(state) VALUES('Pennsylvania');
+INSERT INTO states(state) VALUES('Rhode Island');
+INSERT INTO states(state) VALUES('South Carolina');
+INSERT INTO states(state) VALUES('South Dakota');
+INSERT INTO states(state) VALUES('Tennessee');
+INSERT INTO states(state) VALUES('Texas');
+INSERT INTO states(state) VALUES('Utah');
+INSERT INTO states(state) VALUES('Vermont');
+INSERT INTO states(state) VALUES('Virginia');
+INSERT INTO states(state) VALUES('Washington');
+INSERT INTO states(state) VALUES('West Virginia');
+INSERT INTO states(state) VALUES('Wisconsin');
+INSERT INTO states(state) VALUES('Wyoming');
+
+SELECT * FROM STATES ORDER BY state asc;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
@@ -80,9 +140,7 @@ CREATE TABLE sales (
   uid INTEGER REFERENCES users(id) ON DELETE CASCADE,
   pid INTEGER REFERENCES products(id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL CHECK (quantity>0),
-  price INTEGER NOT NULL CHECK(price>0),
-  credit_card VARCHAR(16) NOT NULL,
-  timeStamp timestamp NOT NULL
+  price INTEGER NOT NULL CHECK(price>0)
 );
 
 SELECT * FROM sales order by id desc;

@@ -58,6 +58,9 @@ public class users {
 	public static void addUser(users user) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
+			if (user.getAge()==0) {
+				throw new Exception("Illegal age");
+			}
 			con = dbUtil.connect();
 			String insertString = "INSERT INTO users(name,role,age,state) Values(?,?,?,?);";
 			pstmt = con.prepareStatement(insertString);

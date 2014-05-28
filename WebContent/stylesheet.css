@@ -45,6 +45,14 @@ table {
 	color:white;
 }
 
+#id2 {
+	position: absolute;
+	margin-top: 200px;
+	margin-left: 250px;
+    font-family:gulim;
+    color:white;
+}
+
 /* nav { height: 31px;
   width: 900px;
   margin-top: -31px;
@@ -54,10 +62,12 @@ table {
 
 
 table th {
+	width:40px;
 	font-family: serif;
 }
 
 table td {
+	width: 40px;
 	font-family: serif;
 }
 
