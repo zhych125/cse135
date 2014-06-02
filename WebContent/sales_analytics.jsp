@@ -48,7 +48,11 @@
         	age = Integer.parseInt(request.getParameter("age"));
         	cid = Integer.parseInt(request.getParameter("category"));
         	row = request.getParameter("row");
-        	table=analytics.getData(state, age, cid, 0, 0, row);  	
+            long start=System.currentTimeMillis();
+        	table=analytics.getDataRaw(state, age, cid, 0, 0, row);
+        	//table=analytics.getData(state, age, cid, 0, 0, row);
+            long end=System.currentTimeMillis();
+        	out.println("Finish, running time:"+(end-start)+"ms");
         }
     } else if(action.equals("next_row_pressed")||action.equals("next_col_pressed")){
         state = request.getParameter("state");
@@ -57,7 +61,8 @@
         row = request.getParameter("row");
         next_row = Integer.parseInt(request.getParameter("next_row"));
         next_col = Integer.parseInt(request.getParameter("next_col"));
-        table=analytics.getData(state, age, cid, next_row, next_col, row);
+        table=analytics.getDataRaw(state, age, cid, next_row, next_col, row);
+        //table=analytics.getData(state, age, cid, next_row, next_col, row);
     }
     
     if(action!=null) {
@@ -70,7 +75,7 @@
     for(KeyValue kv:table.cols) {
     %>
               <th>
-                <%=kv.key+" ($"+ kv.value+")"  %>
+                <b><%=kv.key+" ($"+ kv.value+")"  %></b>
               </th>
               
     <%
@@ -83,7 +88,7 @@
     %>
         <tr>
             <td>
-              <%=kv.key+" ($"+ kv.value+")"  %>
+              <b><%=kv.key+" ($"+ kv.value+")"  %></b>
             </td>
             
             <%
@@ -111,7 +116,10 @@
     <%	
     }
     %>
- </table>      
+ </table>
+    <%
+    if(table.rows.size()==20) {
+    %>    
     <form action="sales_analytics.jsp" method="GET">
     <input name="action" type="hidden" value="next_row_pressed"/>
     <input name="state" type="hidden" value="<%=state %>"/>
@@ -122,6 +130,12 @@
     <input name="next_col" type="hidden" value="<%=next_col %>"/>
     <input type="submit" value="Next 20 rows"/>
     </form>
+    <%
+    }
+    %>
+    <%
+    if(table.cols.size()==10) {
+    %>
     <form action="sales_analytics.jsp" method="GET">
     <input name="action" type="hidden" value="next_col_pressed"/>
     <input name="state" type="hidden" value="<%=state %>"/>
@@ -132,6 +146,9 @@
     <input name="next_col" type="hidden" value="<%=next_col+1 %>"/>
     <input type="submit" value="Next 10 cols"/>
     </form>
+    <%
+    }
+    %>
     <%
     
 }
