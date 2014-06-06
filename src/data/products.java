@@ -186,14 +186,14 @@ public class products {
 	}
 
 	public static String intToPrice(int price) {
-		String sprice = String.format("%.2f", (float) price / 100);
+		String sprice = String.format("%d",price);
 		return sprice;
 	}
 
 	public static int priceToInt(String price) {
 		int iprice=0;
 		try {
-			iprice = (int) (Float.parseFloat(price) * 100);
+			iprice = (int) (Integer.parseInt(price));
 		} catch (Exception e){
 			return 0;
 		}

@@ -169,6 +169,10 @@ public class carts {
 	
 	private static void buyItem(users user,carts item,String credit_card) throws Exception{
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2=null;
+		PreparedStatement pstmt3=null;
+		PreparedStatement pstmt4=null;
+		PreparedStatement pstmt5=null;
 		try {
 			pstmt = con.prepareStatement("INSERT INTO sales(uid,pid,quantity,price) VALUES(?,?,?,?);");
 			pstmt.setInt(1, user.getId());
@@ -177,8 +181,36 @@ public class carts {
 			pstmt.setInt(3, item.getQuantity());
 			pstmt.setInt(4, product.getPrice());
 			pstmt.executeUpdate();
+			pstmt2 = con.prepareStatement("UPDATE user_product_amount SET amount=amount+? WHERE uid=? AND pid=?");
+			pstmt2.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt2.setInt(2, user.getId());
+			pstmt2.setInt(3, product.getId());
+			pstmt2.executeUpdate();
+			pstmt3 = con.prepareStatement("UPDATE state_product_amount SET amount=amount+? "
+					+ "FROM users u WHERE u.state=state_product_amount.state AND state_product_amount.pid=? AND u.id=?");
+			pstmt3.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt3.setInt(2, product.getId());
+			pstmt3.setInt(3, user.getId());
+			pstmt3.executeUpdate();
+			pstmt4 = con.prepareStatement("UPDATE user_category_amount SET amount=amount+? "
+					+ "WHERE uid=? AND cid=?");
+			pstmt4.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt4.setInt(2, user.getId());
+			pstmt4.setInt(3, product.getCid());
+			pstmt4.executeUpdate();
+			pstmt5 = con.prepareStatement("UPDATE state_category_amount SET amount=amount+? "
+					+ "FROM users u WHERE u.state=state_category_amount.state AND "
+					+ "u.id=? AND state_category_amount.cid=?");
+			pstmt5.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt5.setInt(2, user.getId());
+			pstmt5.setInt(3, product.getCid());
+			pstmt5.executeUpdate();
 		} finally {
 			dbUtil.close(null, pstmt, null);
+			dbUtil.close(null, pstmt2, null);
+			dbUtil.close(null,pstmt3,null);
+			dbUtil.close(null, pstmt4, null);
+			dbUtil.close(null, pstmt5, null);
 		}
 	}
 	

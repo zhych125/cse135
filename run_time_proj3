@@ -1,0 +1,23 @@
+customer all state all category
+5451ms
+
+customer single state all category
+98ms
+
+customer all state single category
+275ms
+
+customer single state single category
+94ms
+
+state all state all category
+109ms
+
+state single state all category
+61ms
+
+state all state single category
+49ms
+
+state single state single category
+42ms
