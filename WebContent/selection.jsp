@@ -8,7 +8,7 @@
             <th>Row</th>
             <th>State</th>
             <th>Category</th>
-            <th>Age</th>
+            <!-- <th>Age</th> -->
         </tr>
         <tr>
         <form action="sales_analytics.jsp" method="GET">
@@ -109,7 +109,7 @@
                     %>
                </select>
             </td>
-            <td>
+            <%-- <td>
             <%
             String ageString = request.getParameter("age");
             int ageNumber = -1;
@@ -165,7 +165,7 @@
                     %>
                     >65-</option>
                </select>
-            </td>
+            </td> --%>
             <td>
                 <input type="submit" value="Run Query"/>
             </td>

@@ -45,16 +45,16 @@
     <%
         if(action!=null&&action.equals("run")) {
         	state = request.getParameter("state");
-        	age = Integer.parseInt(request.getParameter("age"));
+        	//age = Integer.parseInt(request.getParameter("age"));
         	cid = Integer.parseInt(request.getParameter("category"));
         	row = request.getParameter("row");
             long start=System.currentTimeMillis();
-        	table=analytics.getDataRaw(state, age, cid, 0, 0, row);
-        	//table=analytics.getData(state, age, cid, 0, 0, row);
+        	table=analytics2.getData(state, cid, row);
             long end=System.currentTimeMillis();
         	out.println("Finish, running time:"+(end-start)+"ms");
         }
-    } else if(action.equals("next_row_pressed")||action.equals("next_col_pressed")){
+    }
+    /* else if(action.equals("next_row_pressed")||action.equals("next_col_pressed")){
         state = request.getParameter("state");
         age = Integer.parseInt(request.getParameter("age"));
         cid = Integer.parseInt(request.getParameter("category"));
@@ -62,9 +62,8 @@
         next_row = Integer.parseInt(request.getParameter("next_row"));
         next_col = Integer.parseInt(request.getParameter("next_col"));
         table=analytics.getDataRaw(state, age, cid, next_row, next_col, row);
-        //table=analytics.getData(state, age, cid, next_row, next_col, row);
     }
-    
+     */
     if(action!=null) {
     %>
     	<table id="id2">
@@ -117,7 +116,7 @@
     }
     %>
  </table>
-    <%
+<%--     <%
     if(table.rows.size()==20) {
     %>    
     <form action="sales_analytics.jsp" method="GET">
@@ -148,7 +147,7 @@
     </form>
     <%
     }
-    %>
+    %> --%>
     <%
     
 }
