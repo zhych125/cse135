@@ -169,18 +169,9 @@ public class carts {
 	
 	private static void buyItem(users user,carts item,String credit_card) throws Exception{
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmtQ = null;
-		PreparedStatement pstmtQ2 = null;
-		PreparedStatement pstmtQ3 = null;
-		PreparedStatement pstmtQ4 = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
-		ResultSet rs3 = null;
-		ResultSet rs4 = null;
-		PreparedStatement pstmt2=null;
-		PreparedStatement pstmt3=null;
-		PreparedStatement pstmt4=null;
-		PreparedStatement pstmt5=null;
 		try {
 			pstmt = con.prepareStatement("INSERT INTO sales(uid,pid,quantity,price) VALUES(?,?,?,?);");
 			pstmt.setInt(1, user.getId());
@@ -190,10 +181,10 @@ public class carts {
 			pstmt.setInt(4, product.getPrice());
 			pstmt.executeUpdate();
 			
-			pstmtQ = con.prepareStatement("SELECT * FROM user_product_amount WHERE uid=? AND pid=? ");
-			pstmtQ.setInt(1, user.getId());
-			pstmtQ.setInt(2, product.getId());
-			rs=pstmtQ.executeQuery();
+			pstmt1 = con.prepareStatement("SELECT * FROM user_product_amount WHERE uid=? AND pid=? ");
+			pstmt1.setInt(1, user.getId());
+			pstmt1.setInt(2, product.getId());
+			rs=pstmt1.executeQuery();
 			if(rs.next()) {
 				pstmt2 = con.prepareStatement("UPDATE user_product_amount SET amount=amount+? WHERE uid=? AND pid=?");
 				
@@ -205,62 +196,55 @@ public class carts {
 			pstmt2.setInt(3, product.getId());
 			pstmt2.executeUpdate();
 			
-			pstmtQ2 = con.prepareStatement("SELECT * FROM state_product_amount WHERE state=? AND pid=?");
-			pstmtQ2.setString(1,user.getState());
-			pstmtQ2.setInt(2, product.getId());
-			rs2 = pstmtQ2.executeQuery();
-			if(rs2.next()) {
-				pstmt3 = con.prepareStatement("UPDATE state_product_amount SET amount=amount+? "
+			pstmt1 = con.prepareStatement("SELECT * FROM state_product_amount WHERE state=? AND pid=?");
+			pstmt1.setString(1,user.getState());
+			pstmt1.setInt(2, product.getId());
+			rs = pstmt1.executeQuery();
+			if(rs.next()) {
+				pstmt2 = con.prepareStatement("UPDATE state_product_amount SET amount=amount+? "
 						+ "WHERE state=? AND pid=?");
 			} else {
-				pstmt3 = con.prepareStatement("INSERT INTO state_product_amount(amount,state,pid) VALUES(?,?,?)");
+				pstmt2 = con.prepareStatement("INSERT INTO state_product_amount(amount,state,pid) VALUES(?,?,?)");
 			}
-			pstmt3.setInt(1, product.getPrice()*item.getQuantity());
-			pstmt3.setString(2, user.getState());
-			pstmt3.setInt(3, product.getId());
-			pstmt3.executeUpdate();
+			pstmt2.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt2.setString(2, user.getState());
+			pstmt2.setInt(3, product.getId());
+			pstmt2.executeUpdate();
 			
-			
-			pstmtQ3 = con.prepareStatement("SELECT * FROM user_category_amount WHERE uid=? AND cid=?");
-			pstmtQ3.setInt(1,user.getId());
-			pstmtQ3.setInt(2, product.getCid());
-			rs3 = pstmtQ3.executeQuery();
-			if(rs3.next()) {
-				pstmt4 = con.prepareStatement("UPDATE user_category_amount SET amount=amount+? "
+			pstmt1 = con.prepareStatement("SELECT * FROM user_category_amount WHERE uid=? AND cid=?");
+			pstmt1.setInt(1,user.getId());
+			pstmt1.setInt(2, product.getCid());
+			rs = pstmt1.executeQuery();
+			if(rs.next()) {
+				pstmt2 = con.prepareStatement("UPDATE user_category_amount SET amount=amount+? "
 						+ "WHERE uid=? AND cid=?");
 			} else {
-				pstmt4 = con.prepareStatement("INSERT INTO user_category_amount(amount,uid,cid) VALUES(?,?,?)");
+				pstmt2 = con.prepareStatement("INSERT INTO user_category_amount(amount,uid,cid) VALUES(?,?,?)");
 			}
-			pstmt4.setInt(1, product.getPrice()*item.getQuantity());
-			pstmt4.setInt(2, user.getId());
-			pstmt4.setInt(3, product.getCid());
-			pstmt4.executeUpdate();
+			pstmt2.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt2.setInt(2, user.getId());
+			pstmt2.setInt(3, product.getCid());
+			pstmt2.executeUpdate();
 			
-			pstmtQ4 = con.prepareStatement("SELECT * FROM state_category_amount WHERE state=? AND cid=?");
-			pstmtQ4.setString(1,user.getState());
-			pstmtQ4.setInt(2, product.getCid());
-			rs4= pstmtQ4.executeQuery();
-			if(rs4.next()) {
-				pstmt5 = con.prepareStatement("UPDATE state_category_amount SET amount=amount+? "
+			pstmt1 = con.prepareStatement("SELECT * FROM state_category_amount WHERE state=? AND cid=?");
+			pstmt1.setString(1,user.getState());
+			pstmt1.setInt(2, product.getCid());
+			rs= pstmt1.executeQuery();
+			if(rs.next()) {
+				pstmt2 = con.prepareStatement("UPDATE state_category_amount SET amount=amount+? "
 						+ "WHERE state=? AND cid=?");
 			} else {
-				pstmt5 = con.prepareStatement("INSERT INTO state_category_amount(amount,state,cid) VALUES(?,?,?)");
+				pstmt2 = con.prepareStatement("INSERT INTO state_category_amount(amount,state,cid) VALUES(?,?,?)");
 			}
-			pstmt5.setInt(1, product.getPrice()*item.getQuantity());
-			pstmt5.setString(2, user.getState());
-			pstmt5.setInt(3, product.getCid());
-			pstmt5.executeUpdate();
+			pstmt2.setInt(1, product.getPrice()*item.getQuantity());
+			pstmt2.setString(2, user.getState());
+			pstmt2.setInt(3, product.getCid());
+			pstmt2.executeUpdate();
+
 		} finally {
-			dbUtil.close(con, pstmtQ, rs);
-			dbUtil.close(null, pstmtQ2, rs2);
-			dbUtil.close(null, pstmtQ3, rs3);
-			dbUtil.close(null, pstmtQ3, rs3);
-			dbUtil.close(null, pstmtQ4, rs4);
+			dbUtil.close(null, pstmt1, rs);
+			dbUtil.close(null, pstmt2,  null);
 			dbUtil.close(null, pstmt, null);
-			dbUtil.close(null, pstmt2, null);
-			dbUtil.close(null,pstmt3,null);
-			dbUtil.close(null, pstmt4, null);
-			dbUtil.close(null, pstmt5, null);
 		}
 	}
 	
